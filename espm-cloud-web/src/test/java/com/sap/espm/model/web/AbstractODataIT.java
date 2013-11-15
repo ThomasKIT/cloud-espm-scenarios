@@ -8,7 +8,7 @@ public abstract class AbstractODataIT {
 	@BeforeClass
 	public static void setup() {
 		// Test Test
-		System.out.println("Test");
+		System.out.println("Test2");
 	}
 
 	@AfterClass
