@@ -21,6 +21,9 @@ sap.ui.jsview("espm-ui-reviews-web.main", {
 				worksetItems : [ new sap.ui.ux3.NavigationItem({
 					id : "nav-customer-reviews-id",
 					text : "{i18n>SHELL_WORKSET_ITEM_CUSTOMER_REVIEWS}"
+				}), new sap.ui.ux3.NavigationItem({
+					id : "nav-productbutler",
+					text : "{i18n>SHELL_WORKSET_ITEM_PRODUCT_BUTLER}"
 				}) ]
 			});
 
@@ -32,6 +35,23 @@ sap.ui.jsview("espm-ui-reviews-web.main", {
 					oController.openSettingsDialog();
 				}
 			});
+
+			// action when shell workset item are clicked
+			oShell.attachWorksetItemSelected(function(oEvent) {
+				var sViewName = oEvent.getParameter("id").replace("nav-", "");
+
+				if (oEvent.getParameter("id").equals("nav-productbutler")) {
+					oShell.setContent(new sap.ui.view({
+						id : "productbutler",
+						viewName : "espm-ui-shopping-web.productbutler",
+						type : sap.ui.core.mvc.ViewType.HTML
+					}));
+
+				} else {
+					oShell.setContent(sap.app.viewCache.get(sViewName));
+				}
+			});
+
 			oShell.addHeaderItem(oSettingsButton);
 			oShell.addContent(oView);
 			return oShell;
