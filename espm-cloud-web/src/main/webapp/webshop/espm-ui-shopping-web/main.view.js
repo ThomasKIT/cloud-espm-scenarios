@@ -33,6 +33,9 @@ sap.ui.jsview("espm-ui-shopping-web.main", {
 			}), new sap.ui.ux3.NavigationItem({
 				id : "nav-checkout",
 				text : "{i18n>SHELL_WORKSET_CHECKOUT}",
+			}), new sap.ui.ux3.NavigationItem({
+				id : "nav-productbutler",
+				text : "{i18n>SHELL_WORKSET_ITEM_PRODUCT_BUTLER}",
 			}) ],
 			paneBarItems : [ this.getShoppingCartPaneBarItem(oController) ],
 			// Just one pane bar item, no need for switch
@@ -58,8 +61,18 @@ sap.ui.jsview("espm-ui-shopping-web.main", {
 
 		// action when shell workset item are clicked
 		oShell.attachWorksetItemSelected(function(oEvent) {
-			var sViewName = oEvent.getParameter("id").replace("nav-", "");
-			oShell.setContent(sap.app.viewCache.get(sViewName));
+			if (oEvent.getParameter("id") == "nav-productbutler") {
+				oShell.setContent(new sap.ui.view({
+					id : "productbutler",
+					viewName : sap.app.config.viewNamespace + "." + "productbutler",
+					type : sap.ui.core.mvc.ViewType.HTML
+				}));
+
+			} else {
+				var sViewName = oEvent.getParameter("id").replace("nav-", "");
+				oShell.setContent(sap.app.viewCache.get(sViewName));
+			}
+
 		});
 
 		// initial shell content
@@ -87,7 +100,7 @@ sap.ui.jsview("espm-ui-shopping-web.main", {
 				// check if there are errors related to quantity, if so set the quantity back to the last valid value
 				// and remove the error messages
 				var aMessages = sap.app.messages.getMessagesOfView("cart");
-				for ( var i = 0; i < aMessages.length; i++) {
+				for (var i = 0; i < aMessages.length; i++) {
 					var oMessage = aMessages[i];
 					var oTextField = sap.ui.getCore().byId(oMessage["Field"]);
 					if (oTextField) {
