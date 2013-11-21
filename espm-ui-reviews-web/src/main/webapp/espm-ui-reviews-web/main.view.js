@@ -40,10 +40,10 @@ sap.ui.jsview("espm-ui-reviews-web.main", {
 			oShell.attachWorksetItemSelected(function(oEvent) {
 				var sViewName = oEvent.getParameter("id").replace("nav-", "");
 
-				if (oEvent.getParameter("id").equals("nav-productbutler")) {
+				if (oEvent.getParameter("id") == "nav-productbutler") {
 					oShell.setContent(new sap.ui.view({
 						id : "productbutler",
-						viewName : "espm-ui-shopping-web.productbutler",
+						viewName : "espm-ui-reviews-web.productbutler",
 						type : sap.ui.core.mvc.ViewType.HTML
 					}));
 

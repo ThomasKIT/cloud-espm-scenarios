@@ -1,3 +1,3 @@
-sap.ui.controller("espm-ui-shopping-web.productbutler", {
+sap.ui.controller("espm-ui-reviews-web.productbutler", {
 
 });
