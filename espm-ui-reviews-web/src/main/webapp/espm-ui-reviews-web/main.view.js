@@ -19,7 +19,7 @@ sap.ui.jsview("espm-ui-reviews-web.main", {
 				showPane : true,
 				paneWidth : 500,
 				worksetItems : [ new sap.ui.ux3.NavigationItem({
-					id : "nav-customer-reviews-id",
+					id : "nav-reviews",
 					text : "{i18n>SHELL_WORKSET_ITEM_CUSTOMER_REVIEWS}"
 				}), new sap.ui.ux3.NavigationItem({
 					id : "nav-productbutler",
