@@ -1,4 +1,10 @@
-sap.ui.jsview("espm-ui-reviews-web.productinfo", {
+sap.ui.jsview("espm-ui-reviews-web.productinfo", {	/*
+													 * TODO
+													 * 
+													 * oTable bind Data get ID from hidden label or invoke directly via
+													 * Function Call
+													 * 
+													 */
 
 	oProductListItemTemplate : new sap.ui.core.ListItem({
 		key : "{ProductId}",
