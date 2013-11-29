@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -24,12 +25,13 @@ public class ProductRelation implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	private long productRelationId;
 
 	@Column(name = "PRODUCT_ID")
 	private String productId;
 
-	List<ProductSimilarity> relations;
+	@OneToMany
+	List<SimilarProducts> relations;
 
 	@Column(name = "PRODUCT_ELO")
 	private Integer productElo;
@@ -47,20 +49,20 @@ public class ProductRelation implements Serializable {
 		this.productElo = productElo;
 	}
 
-	public List<ProductSimilarity> getRelations() {
+	public List<SimilarProducts> getRelations() {
 		return relations;
 	}
 
-	public void setRelations(List<ProductSimilarity> relations) {
+	public void setRelations(List<SimilarProducts> relations) {
 		this.relations = relations;
 	}
 
 	public long getProductRelationId() {
-		return id;
+		return productRelationId;
 	}
 
-	public void setProductRelationId(long id) {
-		this.id = id;
+	public void setProductRelationId(long productRelationId) {
+		this.productRelationId = productRelationId;
 	}
 
 	public String getProductId() {

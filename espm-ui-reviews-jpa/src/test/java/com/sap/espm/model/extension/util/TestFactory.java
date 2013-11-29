@@ -3,11 +3,9 @@ package com.sap.espm.model.extension.util;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +20,6 @@ import org.slf4j.LoggerFactory;
 
 import com.sap.espm.model.extension.CustomerReview;
 import com.sap.espm.model.extension.ProductRelation;
-import com.sap.espm.model.extension.ProductSimilarity;
 
 //import com.sap.espm.model.extension.CustomerReview;
 
@@ -189,22 +186,23 @@ public class TestFactory {
 			em.getTransaction().begin();
 
 			ProductRelation relations = new ProductRelation();
-			List<ProductSimilarity> similarities = new LinkedList<ProductSimilarity>();
+			// List<ProductSimilarity> similarities = new
+			// LinkedList<ProductSimilarity>();
 
 			// Similar products
-			ProductSimilarity relatedProduct = new ProductSimilarity();
-			relatedProduct.setProductRelationId(relationsID);
-			List<String> productIDs = new ArrayList<String>();
-			productIDs.add("Produkt A");
-			productIDs.add("Produkt B");
-			relatedProduct.setRelatedProducts(productIDs);
-			relatedProduct.setResponsible_user("system");
+			// ProductSimilarity relatedProduct = new ProductSimilarity();
+			// relatedProduct.setProductRelationId(relationsID);
+			// List<String> productIDs = new ArrayList<String>();
+			// productIDs.add("Produkt A");
+			// productIDs.add("Produkt B");
+			// relatedProduct.setRelatedProducts(productIDs);
+			// relatedProduct.setResponsible_user("system");
 
 			// Creating the relation to those similar products
 			relations.setProductRelationId(relationsID);
 			relations.setProductId("blablub");
 			relations.setProductElo(2100);
-			relations.setRelations(similarities);
+			// relations.setRelations(similarities);
 
 			em.persist(relations);
 			em.getTransaction().commit();
@@ -263,9 +261,9 @@ public class TestFactory {
 			relations = em.find(ProductRelation.class, relationsID);
 			if (relations != null) {
 
-				for (ProductSimilarity sim : relations.getRelations()) {
-					em.remove(sim);
-				}
+				// for (ProductSimilarity sim : relations.getRelations()) {
+				// em.remove(sim);
+				// }
 
 				em.remove(relations);
 				em.getTransaction().commit();

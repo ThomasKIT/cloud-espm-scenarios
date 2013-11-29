@@ -1,9 +1,11 @@
 package com.sap.espm.model.extension;
 
 import java.util.Calendar;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,8 +15,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "ESPM_EXTENSION_PRODUCT_SIMILARITY")
-public class ProductSimilarity {
+@Table(name = "ESPM_SIMILAR_PRODUCTS")
+public class SimilarProducts {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
@@ -25,8 +27,8 @@ public class ProductSimilarity {
 	@Column(name = "RESPONSIBLE_USER")
 	private String responsible_user;
 
-	@Column(name = "RELATED_PRODUCTS")
-	List<String> relatedProducts;
+	@ElementCollection
+	private Set<String> relatedProducts = new HashSet();
 
 	@Column(name = "DATE_OF_CREATION")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -48,14 +50,6 @@ public class ProductSimilarity {
 		this.responsible_user = responsible_user;
 	}
 
-	public List<String> getRelatedProducts() {
-		return relatedProducts;
-	}
-
-	public void setRelatedProducts(List<String> relatedProducts) {
-		this.relatedProducts = relatedProducts;
-	}
-
 	public long getProductRelationId() {
 		return productRelationId;
 	}
@@ -70,6 +64,14 @@ public class ProductSimilarity {
 
 	public void setCreationDate(Calendar creationDate) {
 		this.creationDate = creationDate;
+	}
+
+	public Set<String> getRelatedProducts() {
+		return relatedProducts;
+	}
+
+	public void setRelatedProducts(Set<String> relatedProducts) {
+		this.relatedProducts = relatedProducts;
 	}
 
 }
