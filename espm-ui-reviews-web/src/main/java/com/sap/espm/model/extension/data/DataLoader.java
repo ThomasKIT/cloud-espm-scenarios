@@ -3,8 +3,10 @@ package com.sap.espm.model.extension.data;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -15,7 +17,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.sap.espm.model.extension.CustomerReview;
-import com.sap.espm.model.extension.ProductRelations;
+import com.sap.espm.model.extension.ProductRelation;
+import com.sap.espm.model.extension.ProductSimilarity;
 
 /**
  * Data loader tool for loading JPA entities (here customer reviews) into the
@@ -58,11 +61,23 @@ public class DataLoader {
 
 			em.getTransaction().begin();
 
-			ProductRelations relations = new ProductRelations();
+			ProductRelation relations = new ProductRelation();
+			List<ProductSimilarity> similarities = new LinkedList<ProductSimilarity>();
 
-			relations.setCreationDate(cal);
-			relations.setProductId("blablub");
-			relations.setResponsible_user("system");
+			// Similar products
+			ProductSimilarity relatedProduct = new ProductSimilarity();
+			relatedProduct.setProductRelationId(1);
+			List<String> productIDs = new ArrayList<String>();
+			productIDs.add("Produkt A");
+			productIDs.add("Produkt B");
+			relatedProduct.setRelatedProducts(productIDs);
+			relatedProduct.setResponsible_user("system");
+
+			// Creating the relation to those similar products
+			relations.setProductRelationId(1);
+			relations.setProductId("Produkt C");
+			relations.setProductElo(2100);
+			relations.setRelations(similarities);
 
 			em.persist(relations);
 			em.getTransaction().commit();

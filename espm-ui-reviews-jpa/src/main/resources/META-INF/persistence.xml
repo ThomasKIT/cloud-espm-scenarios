@@ -6,7 +6,8 @@
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 
 		<class>com.sap.espm.model.extension.CustomerReview</class>
-		<class>com.sap.espm.model.extension.ProductRelations</class>
+		<class>com.sap.espm.model.extension.ProductRelation</class>
+		<class>com.sap.espm.model.extension.ProductSimilarity</class>
 
 		<properties>
 			<property name="eclipselink.ddl-generation" value="drop-and-create-tables" />

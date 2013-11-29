@@ -8,19 +8,24 @@ sap.ui.jsview("espm-ui-reviews-web.productbutler-details", {
 	oProductDetailsLayout : null,
 
 	getControllerName : function() {
-		return "espm-ui-reviews-web.productinfo";
+		return "espm-ui-reviews-web.productbutler-details";
 	},
 
 	createContent : function(oController) {
-		var oCommentField = new sap.ui.commons.TextField({
-			id : "huhutextfield", // sap.ui.core.ID
+		var oCommentFieldItem = new sap.ui.commons.TextField({
+			id : "productButlerSelItemTextField",
+			value : ''
+		});
+
+		var oCommentFieldItemPath = new sap.ui.commons.TextField({
+			id : "productButlerItemPathTextField",
 			value : ''
 		});
 
 		this.oProductDetailsLayout = this.createProductDetailsLayout();
 
 		var oLayout = new sap.ui.commons.layout.VerticalLayout({
-			content : [ oCommentField, new sap.ui.commons.Label({
+			content : [ oCommentFieldItem, oCommentFieldItemPath, new sap.ui.commons.Label({
 				text : "{i18n>PRODUCT_DETAILS_LABEL}"
 			}), this.oProductDetailsLayout ]
 		});
@@ -75,6 +80,6 @@ sap.ui.jsview("espm-ui-reviews-web.productbutler-details", {
 	},
 
 	getSelectedProductItem : function() {
-		return document.getElementById("huhutextfield").value;
+		return document.getElementById("productButlerSelItemTextField").value;
 	}
 });

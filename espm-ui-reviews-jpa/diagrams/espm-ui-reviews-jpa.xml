@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><entities>
 	<entity>
-		<entity-name>com.sap.espm.model.extension.ProductRelations</entity-name>
+		<entity-name>com.sap.espm.model.extension.ProductSimilarity</entity-name>
 		<entity-width>120</entity-width>
-		<entity-height>148</entity-height>
-		<entity-X-Coordinate>230</entity-X-Coordinate>
-		<entity-Y-Coordinate>100</entity-Y-Coordinate>
+		<entity-height>168</entity-height>
+		<entity-X-Coordinate>474</entity-X-Coordinate>
+		<entity-Y-Coordinate>367</entity-Y-Coordinate>
+		<primary-collapsed>false</primary-collapsed>
+		<relation-collapsed>false</relation-collapsed>
+		<basic-collapsed>false</basic-collapsed>
+	</entity>
+
+	<entity>
+		<entity-name>com.sap.espm.model.extension.ProductRelation</entity-name>
+		<entity-width>120</entity-width>
+		<entity-height>166</entity-height>
+		<entity-X-Coordinate>68</entity-X-Coordinate>
+		<entity-Y-Coordinate>358</entity-Y-Coordinate>
 		<primary-collapsed>false</primary-collapsed>
 		<relation-collapsed>false</relation-collapsed>
 		<basic-collapsed>false</basic-collapsed>

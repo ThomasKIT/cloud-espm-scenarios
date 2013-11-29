@@ -3,22 +3,26 @@ package com.sap.espm.model.extension.util;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 
 import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.sap.espm.model.extension.CustomerReview;
-import com.sap.espm.model.extension.ProductRelations;
+import com.sap.espm.model.extension.ProductRelation;
+import com.sap.espm.model.extension.ProductSimilarity;
 
 //import com.sap.espm.model.extension.CustomerReview;
 
@@ -184,12 +188,23 @@ public class TestFactory {
 
 			em.getTransaction().begin();
 
-			ProductRelations relations = new ProductRelations();
+			ProductRelation relations = new ProductRelation();
+			List<ProductSimilarity> similarities = new LinkedList<ProductSimilarity>();
 
+			// Similar products
+			ProductSimilarity relatedProduct = new ProductSimilarity();
+			relatedProduct.setProductRelationId(relationsID);
+			List<String> productIDs = new ArrayList<String>();
+			productIDs.add("Produkt A");
+			productIDs.add("Produkt B");
+			relatedProduct.setRelatedProducts(productIDs);
+			relatedProduct.setResponsible_user("system");
+
+			// Creating the relation to those similar products
 			relations.setProductRelationId(relationsID);
-			relations.setCreationDate(cal);
 			relations.setProductId("blablub");
-			relations.setResponsible_user("system");
+			relations.setProductElo(2100);
+			relations.setRelations(similarities);
 
 			em.persist(relations);
 			em.getTransaction().commit();
@@ -208,14 +223,17 @@ public class TestFactory {
 	 * @param relationsID
 	 * @return
 	 */
-	public List<ProductRelations> getProductRelations(EntityManager em) {
-		List<ProductRelations> relations = null;
+	public List<ProductRelation> getProductRelations(EntityManager em) {
+		List<ProductRelation> relations = null;
+
 		try {
 			if (!em.getTransaction().isActive()) {
 				em.getTransaction().begin();
 			}
-			relations = em.createQuery("SELECT * FROM ProductRelations")
-					.getResultList();
+			TypedQuery<ProductRelation> queryProductRelations = em
+					.createQuery("SELECT pr FROM ProductRelations pr",
+							ProductRelation.class);
+			relations = queryProductRelations.getResultList();
 
 			if (relations == null) {
 				logger.info("CustomerReviews don't exist in the db ");
@@ -225,6 +243,7 @@ public class TestFactory {
 			logger.error("Error occured during selection of the relations. "
 					+ e);
 		}
+
 		return relations;
 	}
 
@@ -236,13 +255,18 @@ public class TestFactory {
 	 */
 	public Boolean deleteProductRelations(EntityManager em, long relationsID) {
 		Boolean status = true;
-		ProductRelations relations = null;
+		ProductRelation relations = null;
 		try {
 			if (!em.getTransaction().isActive()) {
 				em.getTransaction().begin();
 			}
-			relations = em.find(ProductRelations.class, relationsID);
+			relations = em.find(ProductRelation.class, relationsID);
 			if (relations != null) {
+
+				for (ProductSimilarity sim : relations.getRelations()) {
+					em.remove(sim);
+				}
+
 				em.remove(relations);
 				em.getTransaction().commit();
 			} else {
