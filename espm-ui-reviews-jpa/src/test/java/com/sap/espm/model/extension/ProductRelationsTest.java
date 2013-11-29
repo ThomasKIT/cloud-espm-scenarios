@@ -52,6 +52,8 @@ public class ProductRelationsTest extends AbstractTest {
 
 	@Test
 	public void testCreation() throws ParseException {
+		ProductRelations relations = null;
+
 		try {
 			em.getTransaction().begin();
 
@@ -61,7 +63,6 @@ public class ProductRelationsTest extends AbstractTest {
 
 			// Cleaning up
 			// Beziehung suchen
-			ProductRelations relations = null;
 
 			relations = em.find(ProductRelations.class, relationsID);
 			assertNotNull("Search for product relations failed with id: "
