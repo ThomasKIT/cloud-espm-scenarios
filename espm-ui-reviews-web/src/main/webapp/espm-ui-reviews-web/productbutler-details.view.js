@@ -1,4 +1,4 @@
-sap.ui.jsview("espm-ui-reviews-web.productinfo", {
+sap.ui.jsview("espm-ui-reviews-web.productbutler-details", {
 
 	oProductListItemTemplate : new sap.ui.core.ListItem({
 		key : "{ProductId}",

@@ -1,0 +1,9 @@
+.productbutler_productlist_container {
+	width: 60% !important;
+}
+
+.productbutler_productdetails_container {
+	width: 20% !important;
+	vertical-align: top;
+	margin-left: 20px;
+}

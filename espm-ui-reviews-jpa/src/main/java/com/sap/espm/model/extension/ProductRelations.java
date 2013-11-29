@@ -13,7 +13,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
- * Entity implementation class for entity CustomerReview
+ * Entity implementation class for entity Product Relations
  */
 
 @Entity
@@ -28,6 +28,9 @@ public class ProductRelations implements Serializable {
 
 	@Column(name = "PRODUCT_ID", length = 10)
 	private String productId;
+
+	// TODO verlinke die einzelnen Relations
+	// private LinkedList<ProductsRelation> productRelations;
 
 	@Column(name = "DATE_OF_CREATION")
 	@Temporal(TemporalType.TIMESTAMP)

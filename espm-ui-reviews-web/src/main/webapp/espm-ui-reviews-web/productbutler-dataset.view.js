@@ -84,20 +84,7 @@ sap.ui.jsview("espm-ui-reviews-web.productbutler-dataset", {
 		var data = {
 			products : []
 		};
-		/*
-		 * var aTitles = [ "Notebook Basic", "UMTS PDA", "Easy Hand", "Deskjet Super Highspeed", "Copperberry
-		 * Cellphone", "Notebook LCD Display", "PC Power Station", "Gaming Monster Pro", "ITelO FlexTop I4000", "ITelO
-		 * FlexTop I6300c", "Goldberry Cellphone", "ITelO FlexTop I9100", "Notebook Professional", "Smart Office",
-		 * "Deskjet Super Highspeed", "Notebook Basic XS" ]; for (var i = 0; i < aTitles.length; i++) { var sTitle =
-		 * aTitles[i]; var oProduct = { id : "" + i, price : Math.floor((Math.random() * 1000)) + 1 + " $", category :
-		 * "PC", title : sTitle, rating : Math.floor((Math.random() * 5)) + 1 }; if (sTitle.indexOf("Notebook") >= 0) {
-		 * oProduct.category = "Notebook"; } else if (sTitle.indexOf("Cellphone") >= 0 || sTitle.indexOf("PDA") >= 0) {
-		 * oProduct.category = "Mobile"; } oProduct.image = "images/" + oProduct.category + ".png";
-		 * data.products.push(oProduct); }
-		 * 
-		 * var oModel = new sap.ui.model.json.JSONModel();
-		 */
-		// var oModel = new sap.ui.model.odata.ODataModel(sap.app.utility.getBackendDestination(), true);
+
 		var oModel = sap.app.odatamodel;
 
 		// Initialize the Dataset and the layouts

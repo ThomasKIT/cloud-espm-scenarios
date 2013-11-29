@@ -1,10 +1,12 @@
 package com.sap.espm.model.extension.util;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
@@ -16,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.sap.espm.model.extension.CustomerReview;
+import com.sap.espm.model.extension.ProductRelations;
 
 //import com.sap.espm.model.extension.CustomerReview;
 
@@ -149,6 +152,101 @@ public class TestFactory {
 				em.getTransaction().commit();
 			} else {
 				logger.info("CustomerReview " + customerReviewId
+						+ " does not exist in the db");
+				status = false;
+			}
+
+		} catch (Exception e) {
+			status = false;
+			logger.error("Error occured during deletion of customer review. Detailed info: "
+					+ e);
+		}
+		return status;
+	}
+
+	/**
+	 * 
+	 * @param em
+	 * @param relationsID
+	 * @return
+	 * @throws ParseException
+	 */
+	public Boolean createProductRelations(EntityManager em, long relationsID)
+			throws ParseException {
+		Boolean status = true;
+		Calendar cal = Calendar.getInstance();
+		Date date = null;
+		DateFormat formatter = new SimpleDateFormat("yyyymmdd");
+
+		try {
+			date = formatter.parse("19770707");
+			cal.setTime(date);
+
+			em.getTransaction().begin();
+
+			ProductRelations relations = new ProductRelations();
+
+			relations.setProductRelationId(relationsID);
+			relations.setCreationDate(cal);
+			relations.setProductId("blablub");
+			relations.setResponsible_user("system");
+
+			em.persist(relations);
+			em.getTransaction().commit();
+		} finally {
+			if (em.getTransaction().isActive()) {
+				em.getTransaction().rollback();
+			}
+		}
+
+		return status;
+	}
+
+	/**
+	 * 
+	 * @param em
+	 * @param relationsID
+	 * @return
+	 */
+	public List<ProductRelations> getProductRelations(EntityManager em) {
+		List<ProductRelations> relations = null;
+		try {
+			if (!em.getTransaction().isActive()) {
+				em.getTransaction().begin();
+			}
+			relations = em.createQuery("SELECT * FROM ProductRelations")
+					.getResultList();
+
+			if (relations == null) {
+				logger.info("CustomerReviews don't exist in the db ");
+			}
+
+		} catch (Exception e) {
+			logger.error("Error occured during selection of the relations. "
+					+ e);
+		}
+		return relations;
+	}
+
+	/**
+	 * 
+	 * @param em
+	 * @param relationsID
+	 * @return
+	 */
+	public Boolean deleteProductRelations(EntityManager em, long relationsID) {
+		Boolean status = true;
+		ProductRelations relations = null;
+		try {
+			if (!em.getTransaction().isActive()) {
+				em.getTransaction().begin();
+			}
+			relations = em.find(ProductRelations.class, relationsID);
+			if (relations != null) {
+				em.remove(relations);
+				em.getTransaction().commit();
+			} else {
+				logger.info("CustomerReview " + relationsID
 						+ " does not exist in the db");
 				status = false;
 			}

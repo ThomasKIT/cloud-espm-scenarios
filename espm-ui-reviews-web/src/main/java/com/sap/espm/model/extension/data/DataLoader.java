@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.sap.espm.model.extension.CustomerReview;
+import com.sap.espm.model.extension.ProductRelations;
 
 /**
  * Data loader tool for loading JPA entities (here customer reviews) into the
@@ -36,12 +37,41 @@ public class DataLoader {
 		EntityManager em = emf.createEntityManager();
 		try {
 			persistSampleCustomerReview(em);
+			persistSampleProductRelations(em);
 			logNumberOfCustomerReviews(em);
 		} catch (Exception e) {
 			logger.error("Exception occured", e);
 		} finally {
 			em.close();
 		}
+	}
+
+	private void persistSampleProductRelations(EntityManager em)
+			throws ParseException {
+		Calendar cal = Calendar.getInstance();
+		Date date = null;
+		DateFormat formatter = new SimpleDateFormat("yyyymmdd");
+
+		try {
+			date = formatter.parse("19770707");
+			cal.setTime(date);
+
+			em.getTransaction().begin();
+
+			ProductRelations relations = new ProductRelations();
+
+			relations.setCreationDate(cal);
+			relations.setProductId("blablub");
+			relations.setResponsible_user("system");
+
+			em.persist(relations);
+			em.getTransaction().commit();
+		} finally {
+			if (em.getTransaction().isActive()) {
+				em.getTransaction().rollback();
+			}
+		}
+
 	}
 
 	/**
