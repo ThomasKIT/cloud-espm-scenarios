@@ -22,15 +22,39 @@ sap.ui.jsview("espm-ui-reviews-web.productbutler-details", {
 			value : ''
 		});
 
+		var oPurchaseButton = new sap.ui.commons.Button({
+			text : "Artikel kaufen",
+			tooltip : "Diesen Artikel jetzt kaufen.",
+			press : function() {
+				oController.createProductRelations();
+				// oController.createReview();
+			},
+		// press : this.getController().createProductRelations() will get executed automatically??
+		});
+
+		var oWriteReview = new sap.ui.commons.Button({
+			text : "Artikel bewerten",
+			tooltip : "Diesen Artikel jetzt bewerten.",
+			press : function() {
+				// oController.createProductRelations();
+				sap.app.viewCache.get("reviews").getController().openCustomerReviewCreationDialog();
+			},
+		// press : this.getController().createProductRelations() will get executed automatically??
+		});
+
 		this.oProductDetailsLayout = this.createProductDetailsLayout();
 
 		var oLayout = new sap.ui.commons.layout.VerticalLayout({
 			content : [ oCommentFieldItem, oCommentFieldItemPath, new sap.ui.commons.Label({
 				text : "{i18n>PRODUCT_DETAILS_LABEL}"
-			}), this.oProductDetailsLayout ]
+			}), this.oProductDetailsLayout, oPurchaseButton, oWriteReview ]
 		});
 
 		return oLayout;
+	},
+
+	createProductRelations : function() {
+		this.getController().createProductRelations();
 	},
 
 	createProductDetailsLayout : function() {

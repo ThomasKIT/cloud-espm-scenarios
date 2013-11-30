@@ -1,14 +1,11 @@
 package com.sap.espm.model.extension;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -24,14 +21,9 @@ public class ProductRelation implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long productRelationId;
-
+	@GeneratedValue
 	@Column(name = "PRODUCT_ID")
 	private String productId;
-
-	@OneToMany
-	List<SimilarProducts> relations;
 
 	@Column(name = "PRODUCT_ELO")
 	private Integer productElo;
@@ -47,22 +39,6 @@ public class ProductRelation implements Serializable {
 
 	public void setProductElo(int productElo) {
 		this.productElo = productElo;
-	}
-
-	public List<SimilarProducts> getRelations() {
-		return relations;
-	}
-
-	public void setRelations(List<SimilarProducts> relations) {
-		this.relations = relations;
-	}
-
-	public long getProductRelationId() {
-		return productRelationId;
-	}
-
-	public void setProductRelationId(long productRelationId) {
-		this.productRelationId = productRelationId;
 	}
 
 	public String getProductId() {

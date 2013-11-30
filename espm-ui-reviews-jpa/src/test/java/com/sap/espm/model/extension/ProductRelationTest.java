@@ -18,16 +18,15 @@ import com.sap.espm.model.extension.util.TestFactory;
 public class ProductRelationTest extends AbstractTest {
 	EntityManager em;
 	TestFactory testFactory;
-	long relationsID;
+	String relationsID;
 	private static Logger logger;
 
 	@Before
 	public void initTest() {
 		this.em = emf.createEntityManager();
 		this.testFactory = new TestFactory();
-		this.relationsID = 1;
-		ProductRelationTest.logger = LoggerFactory
-				.getLogger(TestFactory.class);
+		this.relationsID = "1";
+		ProductRelationTest.logger = LoggerFactory.getLogger(TestFactory.class);
 	}
 
 	@Test
@@ -79,7 +78,7 @@ public class ProductRelationTest extends AbstractTest {
 	@Test
 	public void testCreation() throws ParseException {
 		ProductRelation relations = null;
-		this.relationsID = 2;
+		this.relationsID = "3";
 
 		EntityManager em = emf.createEntityManager();
 		TestFactory testFactory = new TestFactory();

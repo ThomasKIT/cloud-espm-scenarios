@@ -172,7 +172,7 @@ public class TestFactory {
 	 * @return
 	 * @throws ParseException
 	 */
-	public Boolean createProductRelations(EntityManager em, long relationsID)
+	public Boolean createProductRelations(EntityManager em, String relationsID)
 			throws ParseException {
 		Boolean status = true;
 		Calendar cal = Calendar.getInstance();
@@ -199,8 +199,7 @@ public class TestFactory {
 			// relatedProduct.setResponsible_user("system");
 
 			// Creating the relation to those similar products
-			relations.setProductRelationId(relationsID);
-			relations.setProductId("blablub");
+			relations.setProductId("" + relationsID);
 			relations.setProductElo(2100);
 			// relations.setRelations(similarities);
 

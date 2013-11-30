@@ -7,3 +7,7 @@
 	vertical-align: top;
 	margin-left: 20px;
 }
+
+#productButlerSelItemTextField , #productButlerItemPathTextField{
+	display: none;
+}

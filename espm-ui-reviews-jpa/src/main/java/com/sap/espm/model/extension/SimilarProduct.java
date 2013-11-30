@@ -1,14 +1,11 @@
 package com.sap.espm.model.extension;
 
+import java.io.Serializable;
 import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -16,31 +13,26 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "ESPM_SIMILAR_PRODUCTS")
-public class SimilarProducts {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+public class SimilarProduct implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-	@Column(name = "PRODUCT_RELATION_ID")
-	private long productRelationId;
+	@Id
+	@GeneratedValue
+	@Column(name = "PRODUCT_ID")
+	private String productId;
 
 	@Column(name = "RESPONSIBLE_USER")
 	private String responsible_user;
 
-	@ElementCollection
-	private Set<String> relatedProducts = new HashSet();
+	@Column(name = "RELATED_PRODUCT")
+	private String relatedProduct;
 
 	@Column(name = "DATE_OF_CREATION")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar creationDate;
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
 
 	public String getResponsible_user() {
 		return responsible_user;
@@ -50,12 +42,12 @@ public class SimilarProducts {
 		this.responsible_user = responsible_user;
 	}
 
-	public long getProductRelationId() {
-		return productRelationId;
+	public String getProductId() {
+		return productId;
 	}
 
-	public void setProductRelationId(long productRelationId) {
-		this.productRelationId = productRelationId;
+	public void setProductRelationId(String productId) {
+		this.productId = productId;
 	}
 
 	public Calendar getCreationDate() {
@@ -66,12 +58,12 @@ public class SimilarProducts {
 		this.creationDate = creationDate;
 	}
 
-	public Set<String> getRelatedProducts() {
-		return relatedProducts;
+	public String getRelatedProduct() {
+		return relatedProduct;
 	}
 
-	public void setRelatedProducts(Set<String> relatedProducts) {
-		this.relatedProducts = relatedProducts;
+	public void setRelatedProduct(String relatedProduct) {
+		this.relatedProduct = relatedProduct;
 	}
 
 }

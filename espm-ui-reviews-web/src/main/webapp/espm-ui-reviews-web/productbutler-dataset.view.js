@@ -143,11 +143,13 @@ sap.ui.jsview("espm-ui-reviews-web.productbutler-dataset", {
 			});
 		}
 
+		that = this;
+
 		var oDataSet = new sap.ui.ux3.DataSet({
 			items : {
 				path : "/Products",
 				template : new sap.ui.ux3.DataSetItem({
-					title : "{Name}",
+					title : "{ProductId}",
 					iconSrc : "{PictureUrl}"
 				})
 			},
@@ -170,17 +172,57 @@ sap.ui.jsview("espm-ui-reviews-web.productbutler-dataset", {
 			},
 			selectionChanged : function search(oEvent) {
 				var idx = oEvent.getParameter("newLeadSelectedIndex");
-				// alert("Product '" + oDataSet.getItems()[idx].getTitle() + "' selected.'");
+
 				document.getElementById("productButlerSelItemTextField").value = ""
 						+ oDataSet.getItems()[idx].getTitle();
 				document.getElementById("productButlerItemPathTextField").value = ""
 						+ document.getElementById("productButlerItemPathTextField").value + ";"
 						+ oDataSet.getItems()[idx].getTitle();
 
+				var relations = that.getProductRelations();
+
+				var oCarousel = sap.ui.getCore().byId("SimilarProductsCarousel");
+				oCarousel.destroyContent();
+
+				if (relations != -1 && relations.error == undefined) {
+					oCarousel.addContent(new sap.ui.commons.Image("", {
+						src : "images/carousel/img1.jpg",
+						alt : "sample image",
+						width : "100px",
+						height : "75px",
+						press : function() {
+							document.getElementById("productButlerSelItemTextField").value = ""
+									+ oDataSet.getItems()[idx].getTitle();
+							document.getElementById("productButlerItemPathTextField").value = ""
+									+ document.getElementById("productButlerItemPathTextField").value + ";"
+									+ oDataSet.getItems()[idx].getTitle();
+						}
+					}));
+				}
+
 			}
 		});
 		oDataSet.setModel(oModel);
 		// oDataSet.placeAt("sample1");
 		return oDataSet;
-	}
+	},
+
+	getProductRelations : function() {
+
+		var selectedItem = sap.ui.getCore().byId("productButlerSelItemTextField");
+		var oExtensionODataModel = sap.ui.getCore().getModel("extensionodatamodel");
+
+		var fnSuccess = function(oData, oResponse) {
+			return oData;
+		}
+
+		var fnError = function() {
+			return -1;
+		}
+
+		oExtensionODataModel.read("/ProductRelations('"
+				+ document.getElementById("productButlerSelItemTextField").value + "')", null, null, true, fnSuccess,
+				fnError);
+
+	},
 });

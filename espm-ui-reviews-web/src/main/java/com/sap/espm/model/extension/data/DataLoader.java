@@ -5,10 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -19,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import com.sap.espm.model.extension.CustomerReview;
 import com.sap.espm.model.extension.ProductRelation;
-import com.sap.espm.model.extension.SimilarProducts;
+import com.sap.espm.model.extension.SimilarProduct;
 
 /**
  * Data loader tool for loading JPA entities (here customer reviews) into the
@@ -57,31 +54,57 @@ public class DataLoader {
 		DateFormat formatter = new SimpleDateFormat("yyyymmdd");
 
 		try {
+
+			// ;HT-1000;HT-1001;HT-1002;HT-1003;HT-1010;HT-1011
+
 			date = formatter.parse("19770707");
 			cal.setTime(date);
 
 			em.getTransaction().begin();
 
 			ProductRelation relations = new ProductRelation();
-			List<SimilarProducts> similarities = new LinkedList<SimilarProducts>();
+
+			// HT-1000
+			// Creating the relation
+			relations.setProductId("HT-1000");
+			relations.setProductElo(2100);
+			em.persist(relations);
 
 			// Similar products
-			SimilarProducts relatedProducts = new SimilarProducts();
-			relatedProducts.setProductRelationId(1);
-			Set<String> productIDs = new HashSet<String>();
-			productIDs.add("Produkt A");
-			productIDs.add("Produkt B");
-			relatedProducts.setRelatedProducts(productIDs);
+			SimilarProduct relatedProducts = new SimilarProduct();
+			relatedProducts.setProductRelationId("HT-1000");
+			relatedProducts.setRelatedProduct("HT-1002");
 			relatedProducts.setResponsible_user("system");
-
-			// Creating the relation to those similar products
-			relations.setProductRelationId(1);
-			relations.setProductId("Produkt C");
-			relations.setProductElo(2100);
-			relations.setRelations(similarities);
-
 			em.persist(relatedProducts);
+			relatedProducts = new SimilarProduct();
+			relatedProducts.setProductRelationId("HT-1000");
+			relatedProducts.setRelatedProduct("HT-1003");
+			relatedProducts.setResponsible_user("system");
+			em.persist(relatedProducts);
+			relatedProducts = new SimilarProduct();
+			relatedProducts.setProductRelationId("HT-1000");
+			relatedProducts.setRelatedProduct("HT-1011");
+			relatedProducts.setResponsible_user("system");
+			em.persist(relatedProducts);
+
+			// HT-1001
+			// Creating the relation
+			relations.setProductId("HT-1001");
+			relations.setProductElo(1700);
 			em.persist(relations);
+
+			// Similar products
+			relatedProducts = new SimilarProduct();
+			relatedProducts.setProductRelationId("HT-1001");
+			relatedProducts.setRelatedProduct("HT-1002");
+			relatedProducts.setResponsible_user("system");
+			em.persist(relatedProducts);
+			relatedProducts = new SimilarProduct();
+			relatedProducts.setProductRelationId("HT-1001");
+			relatedProducts.setRelatedProduct("HT-1003");
+			relatedProducts.setResponsible_user("system");
+			em.persist(relatedProducts);
+
 			em.getTransaction().commit();
 		} finally {
 			if (em.getTransaction().isActive()) {
