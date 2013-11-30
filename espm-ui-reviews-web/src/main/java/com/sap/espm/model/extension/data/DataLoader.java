@@ -56,7 +56,8 @@ public class DataLoader {
 		try {
 
 			// ;HT-1000;HT-1001;HT-1002;HT-1003;HT-1010;HT-1011
-			// manuelles Handling der Beziehung
+			// TODO Recommender Version 2 manuelles Handling der Beziehung
+			// entfernen, neue Entitäten mit Beziehungen
 
 			date = formatter.parse("19770707");
 			cal.setTime(date);
