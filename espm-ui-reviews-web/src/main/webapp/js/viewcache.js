@@ -2,6 +2,10 @@ sap.app.viewCache = {
 
 	oViewCache : {},
 
+	set : function(name, view) {
+		this.oViewCache[name] = view;
+	},
+
 	/**
 	 * Returns a cached view object. If it doesn't exist yet, it is created.
 	 */

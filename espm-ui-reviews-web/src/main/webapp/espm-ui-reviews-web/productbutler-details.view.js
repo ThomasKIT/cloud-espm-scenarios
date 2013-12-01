@@ -1,17 +1,13 @@
 sap.ui.jsview("espm-ui-reviews-web.productbutler-details", {
 
-	oProductListItemTemplate : new sap.ui.core.ListItem({
-		key : "{ProductId}",
-		text : "{Name}"
-	}),
-
-	oProductDetailsLayout : null,
-
 	getControllerName : function() {
 		return "espm-ui-reviews-web.productbutler-details";
 	},
 
 	createContent : function(oController) {
+		// Create the Carousel control
+		var oCarousel = sap.app.viewCache.get("productbutler-relations").makeCarousel();
+
 		var oCommentFieldItem = new sap.ui.commons.TextField({
 			id : "productButlerSelItemTextField",
 			value : ''
@@ -27,7 +23,6 @@ sap.ui.jsview("espm-ui-reviews-web.productbutler-details", {
 			tooltip : "Diesen Artikel jetzt kaufen.",
 			press : function() {
 				oController.createProductRelations();
-				// oController.createReview();
 			},
 		// press : this.getController().createProductRelations() will get executed automatically??
 		});
@@ -36,10 +31,8 @@ sap.ui.jsview("espm-ui-reviews-web.productbutler-details", {
 			text : "Artikel bewerten",
 			tooltip : "Diesen Artikel jetzt bewerten.",
 			press : function() {
-				// oController.createProductRelations();
 				sap.app.viewCache.get("reviews").getController().openCustomerReviewCreationDialog();
 			},
-		// press : this.getController().createProductRelations() will get executed automatically??
 		});
 
 		this.oProductDetailsLayout = this.createProductDetailsLayout();
@@ -47,7 +40,7 @@ sap.ui.jsview("espm-ui-reviews-web.productbutler-details", {
 		var oLayout = new sap.ui.commons.layout.VerticalLayout({
 			content : [ oCommentFieldItem, oCommentFieldItemPath, new sap.ui.commons.Label({
 				text : "{i18n>PRODUCT_DETAILS_LABEL}"
-			}), this.oProductDetailsLayout, oPurchaseButton, oWriteReview ]
+			}), this.oProductDetailsLayout, oPurchaseButton, oWriteReview, oCarousel ]
 		});
 
 		return oLayout;
@@ -58,52 +51,36 @@ sap.ui.jsview("espm-ui-reviews-web.productbutler-details", {
 	},
 
 	createProductDetailsLayout : function() {
-		var oVerticalProductNameDescLayout = new sap.ui.commons.layout.VerticalLayout({
-			width : "500px",
-			content : [ new sap.ui.commons.TextView({
-				id : "productbutler-selected-product-name-view-id",
-				text : "{Name}",
-			}), new sap.ui.commons.TextView({
-				id : "productbutler-selected-product-desc-view-id",
-				text : "{ShortDescription}",
-			}) ]
-		}).addStyleClass("layoutPaddingProductDetails");
-
-		return new sap.ui.commons.layout.HorizontalLayout({
-			content : [
-					new sap.ui.commons.Image({
-						id : "productbutler-selected-product-image-id",
-						src : {
-							path : "PictureUrl",
-							formatter : function(src) {
-								if (!src) {
-									return (sap.app.config.productPlaceholderImg);
-								} else {
-									var re = /.JPG/g;
-									src = src.replace(re, ".jpg");
-									return (sap.app.utility.getBackendImagesDestination()
-											+ sap.app.utility.getImagesBaseUrl() + src);
-								}
-							}
-						},
-						width : "75px",
-						height : "75px"
-					}), oVerticalProductNameDescLayout ]
+		var oMatrixLayout = new sap.ui.commons.layout.MatrixLayout({
+			id : "productDetailsLayout"
 		});
+
+		return oMatrixLayout;
 	},
 
-	setProductFilter : function(aFilter) {
-		var oController = this.getController();
-		var oOldBinding = this.oProductsDropdownBox.getBinding("items");
-		if (oOldBinding) {
-			oOldBinding.detachChange(oController.selectedProductChanged, oController);
-		}
-		this.oProductsDropdownBox.bindItems("/Products", this.oProductListItemTemplate, new sap.ui.model.Sorter("Name",
-				false), aFilter);
-		this.oProductsDropdownBox.getBinding("items").attachChange(oController.selectedProductChanged, oController);
-	},
+	updateProductDetailsLayout : function(product) {
+		var oMatrixLayout = sap.ui.getCore().byId("productDetailsLayout");
 
-	getSelectedProductItem : function() {
-		return document.getElementById("productButlerSelItemTextField").value;
+		oMatrixLayout.removeAllRows();
+
+		oMatrixLayout.createRow(new sap.ui.commons.Label({
+			text : "" + product.Name
+		}), new sap.ui.commons.Label({
+			text : ""
+		}));
+
+		oMatrixLayout.createRow(new sap.ui.commons.Label({
+			text : "Preis:"
+		}), new sap.ui.commons.Label({
+			text : "" + product.Price + " " + product.CurrencyCode
+		}));
+
+		oMatrixLayout.createRow(new sap.ui.commons.Label({
+			text : "Beschreibung:"
+		}), new sap.ui.commons.Label({
+			text : "" + product.LongDescription
+		}));
+
+		// foreach .... if(!isNaN())
 	}
 });

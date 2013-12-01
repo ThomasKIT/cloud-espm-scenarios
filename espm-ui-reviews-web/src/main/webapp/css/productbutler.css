@@ -11,3 +11,20 @@
 #productButlerSelItemTextField , #productButlerItemPathTextField{
 	display: none;
 }
+
+
+.dataset-item-link {
+ background-color: #FFFFFF !important;
+ 
+ opacity:0.5;
+  -webkit-transition: opacity 0.3s ease-in;
+  -moz-transition: opacity 0.3s ease-in;
+  -o-transition: opacity 0.3s ease-in;
+   	cursor: pointer;
+
+}
+
+.dataset-item-link:hover {
+ opacity:1;
+ background-color: #FFFFFF !important;
+}

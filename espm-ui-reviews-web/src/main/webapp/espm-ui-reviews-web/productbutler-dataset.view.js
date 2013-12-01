@@ -3,7 +3,7 @@ sap.ui.jsview("espm-ui-reviews-web.productbutler-dataset", {
 	oAverageRatingIndicator : null,
 
 	getControllerName : function() {
-		return "espm-ui-reviews-web.customer-reviews";
+		return "espm-ui-reviews-web.productbutler-dataset";
 	},
 
 	oProductListItemTemplate : new sap.ui.core.ListItem({
@@ -34,7 +34,7 @@ sap.ui.jsview("espm-ui-reviews-web.productbutler-dataset", {
 			renderer : function(rm, ctrl) {
 				rm.write("<div");
 				rm.writeControlData(ctrl);
-				rm.writeAttribute("class", "CustomItemLayout");
+				rm.writeAttribute("class", "CustomItemLayout dataset-item-link");
 				rm.write("><div");
 				rm.writeAttribute("class", "CustomItemLayoutInner");
 				rm.write("><div");
@@ -143,7 +143,7 @@ sap.ui.jsview("espm-ui-reviews-web.productbutler-dataset", {
 			});
 		}
 
-		that = this;
+		controller = oController;
 
 		var oDataSet = new sap.ui.ux3.DataSet({
 			items : {
@@ -179,50 +179,15 @@ sap.ui.jsview("espm-ui-reviews-web.productbutler-dataset", {
 						+ document.getElementById("productButlerItemPathTextField").value + ";"
 						+ oDataSet.getItems()[idx].getTitle();
 
-				var relations = that.getProductRelations();
-
 				var oCarousel = sap.ui.getCore().byId("SimilarProductsCarousel");
 				oCarousel.destroyContent();
 
-				if (relations != -1 && relations.error == undefined) {
-					oCarousel.addContent(new sap.ui.commons.Image("", {
-						src : "images/carousel/img1.jpg",
-						alt : "sample image",
-						width : "100px",
-						height : "75px",
-						press : function() {
-							document.getElementById("productButlerSelItemTextField").value = ""
-									+ oDataSet.getItems()[idx].getTitle();
-							document.getElementById("productButlerItemPathTextField").value = ""
-									+ document.getElementById("productButlerItemPathTextField").value + ";"
-									+ oDataSet.getItems()[idx].getTitle();
-						}
-					}));
-				}
+				controller.updateCarousel(oDataSet);
 
 			}
 		});
 		oDataSet.setModel(oModel);
 		// oDataSet.placeAt("sample1");
 		return oDataSet;
-	},
-
-	getProductRelations : function() {
-
-		var selectedItem = sap.ui.getCore().byId("productButlerSelItemTextField");
-		var oExtensionODataModel = sap.ui.getCore().getModel("extensionodatamodel");
-
-		var fnSuccess = function(oData, oResponse) {
-			return oData;
-		}
-
-		var fnError = function() {
-			return -1;
-		}
-
-		oExtensionODataModel.read("/ProductRelations('"
-				+ document.getElementById("productButlerSelItemTextField").value + "')", null, null, true, fnSuccess,
-				fnError);
-
-	},
+	}
 });

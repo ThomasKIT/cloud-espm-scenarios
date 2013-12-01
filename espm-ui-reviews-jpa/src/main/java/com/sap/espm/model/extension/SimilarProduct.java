@@ -34,6 +34,14 @@ public class SimilarProduct implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar creationDate;
 
+	public String getProductId() {
+		return productId;
+	}
+
+	public void setProductId(String productId) {
+		this.productId = productId;
+	}
+
 	public String getResponsible_user() {
 		return responsible_user;
 	}
@@ -42,12 +50,12 @@ public class SimilarProduct implements Serializable {
 		this.responsible_user = responsible_user;
 	}
 
-	public String getProductId() {
-		return productId;
+	public String getRelatedProduct() {
+		return relatedProduct;
 	}
 
-	public void setProductRelationId(String productId) {
-		this.productId = productId;
+	public void setRelatedProduct(String relatedProduct) {
+		this.relatedProduct = relatedProduct;
 	}
 
 	public Calendar getCreationDate() {
@@ -58,12 +66,8 @@ public class SimilarProduct implements Serializable {
 		this.creationDate = creationDate;
 	}
 
-	public String getRelatedProduct() {
-		return relatedProduct;
-	}
-
-	public void setRelatedProduct(String relatedProduct) {
-		this.relatedProduct = relatedProduct;
+	public SimilarProduct() {
+		super();
 	}
 
 }
