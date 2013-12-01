@@ -49,9 +49,6 @@ public class DataLoader {
 
 	private void persistSampleProductRelations(EntityManager em)
 			throws ParseException {
-		Calendar cal = Calendar.getInstance();
-		Date date = null;
-		DateFormat formatter = new SimpleDateFormat("yyyymmdd");
 
 		try {
 
@@ -59,59 +56,50 @@ public class DataLoader {
 			// manuelles Handling der Beziehung
 			// vorerst nur eine Richtung um Applikation fertigzustellen
 
-			date = formatter.parse("19770707");
-			cal.setTime(date);
-
 			em.getTransaction().begin();
 
-			ProductRelation relations = new ProductRelation();
+			persistRelation(em, "HT-1003", 2100, new String[] { "HT-1003",
+					"HT-1010", "HT-1011", "HT-1021", "HT-1020" });
 
-			// HT-1000
-			// Creating the relation
-			relations.setProductId("HT-1000");
-			relations.setProductElo(2100);
-			em.persist(relations);
+			persistRelation(em, "HT-1002", 2100, new String[] { "HT-1000",
+					"HT-1001", "HT-1011" });
 
-			// // Similar products
-			SimilarProduct relatedProducts = new SimilarProduct();
-			relatedProducts.setProductId("HT-1000");
-			relatedProducts.setRelatedProduct("HT-1002");
-			relatedProducts.setResponsible_user("system");
-			em.persist(relatedProducts);
-			// relatedProducts = new SimilarProduct();
-			// relatedProducts.setProductRelationId("HT-1000");
-			// relatedProducts.setRelatedProduct("HT-1003");
-			// relatedProducts.setResponsible_user("system");
-			// em.persist(relatedProducts);
-			// relatedProducts = new SimilarProduct();
-			// relatedProducts.setProductRelationId("HT-1000");
-			// relatedProducts.setRelatedProduct("HT-1011");
-			// relatedProducts.setResponsible_user("system");
-			// em.persist(relatedProducts);
-			//
-			// // HT-1001
-			// // Creating the relation
-			// relations.setProductId("HT-1001");
-			// relations.setProductElo(1700);
-			// em.persist(relations);
-			//
-			// // Similar products
-			// relatedProducts = new SimilarProduct();
-			// relatedProducts.setProductRelationId("HT-1001");
-			// relatedProducts.setRelatedProduct("HT-1002");
-			// relatedProducts.setResponsible_user("system");
-			// em.persist(relatedProducts);
-			// relatedProducts = new SimilarProduct();
-			// relatedProducts.setProductRelationId("HT-1001");
-			// relatedProducts.setRelatedProduct("HT-1003");
-			// relatedProducts.setResponsible_user("system");
-			// em.persist(relatedProducts);
+			persistRelation(em, "HT-1011", 2100, new String[] { "HT-1000" });
 
 			em.getTransaction().commit();
 		} finally {
 			if (em.getTransaction().isActive()) {
 				em.getTransaction().rollback();
 			}
+		}
+
+	}
+
+	private void persistRelation(EntityManager em, String productA,
+			int productAElo, String[] relatedProducts) throws ParseException {
+
+		Calendar cal = Calendar.getInstance();
+		Date date = null;
+		DateFormat formatter = new SimpleDateFormat("yyyymmdd");
+		date = formatter.parse("19770707");
+		cal.setTime(date);
+
+		ProductRelation entity = new ProductRelation();
+
+		// Creating the relation
+		entity.setProductId(productA);
+		entity.setProductElo(productAElo);
+		em.persist(entity);
+
+		// Similar products
+		for (String product : relatedProducts) {
+			SimilarProduct relation = new SimilarProduct();
+
+			relation.setProductId(productA);
+			relation.setRelatedProduct(product);
+			relation.setCreationDate(cal);
+			relation.setResponsible_user("system");
+			em.persist(relation);
 		}
 
 	}

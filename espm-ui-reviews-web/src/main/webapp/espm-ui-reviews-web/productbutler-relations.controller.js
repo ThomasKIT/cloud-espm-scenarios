@@ -21,6 +21,7 @@ sap.ui.controller("espm-ui-reviews-web.productbutler-relations", {
 		var oExtensionODataModel = sap.ui.getCore().getModel("extensionodatamodel");
 		oCarousel.destroyContent();
 
+		// Product Relations successfully fetched
 		var fnSuccess = function(oData, oResponse) {
 			if (oData.error == undefined) {
 
