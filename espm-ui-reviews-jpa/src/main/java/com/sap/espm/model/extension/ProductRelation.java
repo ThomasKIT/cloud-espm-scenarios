@@ -7,6 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import com.sap.espm.model.extension.SimilarProduct;
+import java.util.Collection;
+import javax.persistence.OneToMany;
 
 /**
  * Entity implementation class for entity Product Relations
@@ -27,6 +30,9 @@ public class ProductRelation implements Serializable {
 
 	@Column(name = "PRODUCT_ELO")
 	private Integer productElo;
+
+	@OneToMany
+	private Collection<SimilarProduct> similarProduct;
 
 	public int getProductElo() {
 		if (productElo == null || productElo < 0 || productElo == 0) {
@@ -51,6 +57,14 @@ public class ProductRelation implements Serializable {
 
 	public ProductRelation() {
 		super();
+	}
+
+	public Collection<SimilarProduct> getSimilarProduct() {
+	    return similarProduct;
+	}
+
+	public void setSimilarProduct(Collection<SimilarProduct> param) {
+	    this.similarProduct = param;
 	}
 
 }

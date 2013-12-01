@@ -1,7 +1,7 @@
 sap.ui.jsview("espm-ui-reviews-web.productbutler-relations", {
 	createContent : function(oController) {
 		// auskommentiert, wird nun in den Produktdetails eingebunden durch Aufruf von makeCarousel
-		// return this.makeCarousel();
+		return this.makeCarousel();
 	},
 
 	getControllerName : function() {

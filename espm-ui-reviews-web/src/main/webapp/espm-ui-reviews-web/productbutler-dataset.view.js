@@ -122,9 +122,8 @@ sap.ui.jsview("espm-ui-reviews-web.productbutler-dataset", {
 									hCells : "5"
 								})
 							}),
-							fields : [ new c.TextField({
-								value : "{Price}",
-								editable : false
+							fields : [ new c.Label({
+								text : "{Price}"
 							}) ]
 						}), new c.form.FormElement({
 							label : new c.Label({
@@ -146,11 +145,15 @@ sap.ui.jsview("espm-ui-reviews-web.productbutler-dataset", {
 		controller = oController;
 
 		var oDataSet = new sap.ui.ux3.DataSet({
+			id : "oDataSetProducts",
+			showFilter : true,
+			showToolbar : true,
 			items : {
 				path : "/Products",
 				template : new sap.ui.ux3.DataSetItem({
 					title : "{ProductId}",
-					iconSrc : "{PictureUrl}"
+					iconSrc : "{PictureUrl}",
+					weight : "{Weight}"
 				})
 			},
 			views : [ new sap.ui.ux3.DataSetSimpleView({
@@ -174,11 +177,14 @@ sap.ui.jsview("espm-ui-reviews-web.productbutler-dataset", {
 				var idx = oEvent.getParameter("newLeadSelectedIndex");
 
 				controller.dataSetItemClicked(idx, oDataSet);
-
 			}
 		});
 		oDataSet.setModel(oModel);
-		// oDataSet.placeAt("sample1");
+		oDataSet.addToolbarItem(new sap.ui.commons.Label({
+			text : "Produkte",
+			id : "dataSetFilterLabel"
+		}));
+
 		return oDataSet;
 	}
 });
