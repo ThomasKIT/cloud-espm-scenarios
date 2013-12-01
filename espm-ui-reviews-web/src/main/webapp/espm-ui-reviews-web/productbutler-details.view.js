@@ -38,6 +38,7 @@ sap.ui.jsview("espm-ui-reviews-web.productbutler-details", {
 		this.oProductDetailsLayout = this.createProductDetailsLayout();
 
 		var oLayout = new sap.ui.commons.layout.VerticalLayout({
+			width : "100%",
 			content : [ oCommentFieldItem, oCommentFieldItemPath, new sap.ui.commons.Label({
 				text : "{i18n>PRODUCT_DETAILS_LABEL}"
 			}), this.oProductDetailsLayout, oPurchaseButton, oWriteReview, oCarousel ]
@@ -52,16 +53,33 @@ sap.ui.jsview("espm-ui-reviews-web.productbutler-details", {
 
 	createProductDetailsLayout : function() {
 		var oMatrixLayout = new sap.ui.commons.layout.MatrixLayout({
-			id : "productDetailsLayout"
+			id : "productDetailsLayout",
+			width : "100%",
+			widths : [ "30%", "70%" ]
 		});
 
 		return oMatrixLayout;
 	},
 
-	updateProductDetailsLayout : function(product) {
+	updateProductDetailsLayout : function(productTitle, product) {
+		// get all the Products from the OData Service,
+		// forced to do this manually, because the OData Service
+		// doesn't contain any getElement Method to pick one Product
+
+		// now update the product details more or less dynamically
 		var oMatrixLayout = sap.ui.getCore().byId("productDetailsLayout");
 
 		oMatrixLayout.removeAllRows();
+
+		oMatrixLayout.createRow(new sap.ui.commons.Image("", {
+			src : that.formatter("" + product.PictureUrl),
+			alt : "Alternativtext",
+			width : "200px",
+			height : "150px",
+			border : "1px solid #000000"
+		}), new sap.ui.commons.Label({
+			text : ""
+		}));
 
 		oMatrixLayout.createRow(new sap.ui.commons.Label({
 			text : "" + product.Name
@@ -81,6 +99,52 @@ sap.ui.jsview("espm-ui-reviews-web.productbutler-details", {
 			text : "" + product.LongDescription
 		}));
 
+		oMatrixLayout.createRow(new sap.ui.commons.Label({
+			text : "Hersteller:"
+		}), new sap.ui.commons.Label({
+			text : "" + product.SupplierName
+		}));
+
+		oMatrixLayout.createRow(new sap.ui.commons.Label({
+			text : "Gewicht:"
+		}), new sap.ui.commons.Label({
+			text : "" + product.Weight + " " + product.WeightUnit.toLowerCase()
+		}));
+
+		oMatrixLayout.createRow(new sap.ui.commons.Label({
+			text : "Abmessung (Breite):"
+		}), new sap.ui.commons.Label({
+			text : "" + product.DimensionWidth + " " + product.DimensionUnit.toLowerCase()
+		}));
+
+		oMatrixLayout.createRow(new sap.ui.commons.Label({
+			text : "Abmessung (Tiefe):"
+		}), new sap.ui.commons.Label({
+			text : "" + product.DimensionDepth + " " + product.DimensionUnit.toLowerCase()
+		}));
+
+		oMatrixLayout.createRow(new sap.ui.commons.Label({
+			text : "Abmessung (Höhe):"
+		}), new sap.ui.commons.Label({
+			text : "" + product.DimensionHeight + " " + product.DimensionUnit.toLowerCase()
+		}));
+
+		oMatrixLayout.createRow(new sap.ui.commons.Label({
+			text : "Alle Eigenschaften anzeigen"
+		}), new sap.ui.commons.Label({
+			text : "klick"
+		}));
+
 		// foreach .... if(!isNaN())
+	},
+
+	formatter : function(src) {
+		if (!src) {
+			return (sap.app.config.productPlaceholderImg);
+		} else {
+			var re = /.JPG/g;
+			src = src.replace(re, ".jpg");
+			return (sap.app.utility.getBackendImagesDestination() + sap.app.utility.getImagesBaseUrl() + src);
+		}
 	}
 });

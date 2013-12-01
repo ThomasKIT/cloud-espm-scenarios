@@ -14,14 +14,78 @@ sap.ui.controller("espm-ui-reviews-web.productbutler-relations", {
 		sap.app.extensionodatamodel.read("/ProductRelations", null, null, true, fnSuccess, fnError);
 	},
 
-	createProductRelations : function(selectedItem, itemPath) {
+	updateCarousel : function(oProductsDataSet) {
+		that = this;
+		var oCarousel = sap.ui.getCore().byId("SimilarProductsCarousel");
+		var selectedItem = sap.ui.getCore().byId("productButlerSelItemTextField");
+		var oExtensionODataModel = sap.ui.getCore().getModel("extensionodatamodel");
+		oCarousel.destroyContent();
 
-		// var selectedItem = sap.ui.getCore().byId("productButlerSelItemTextField");
-		// var itemPath = sap.ui.getCore().byId("productButlerItemPathTextField");
+		var fnSuccess = function(oData, oResponse) {
+			if (oData.error == undefined) {
+
+				// Link ProductRelations with SimilarProducts
+				var fnSuccessSimProd = function(oData2, oResponse2) {
+
+					// TODO for each one
+					// link with Products from the DataSet and get the Image-Url
+					var a = oProductsDataSet.getItems();
+
+					for (i = 0; i < a.length; ++i) {
+						if (a[i].getTitle() == oData2.RelatedProduct) {
+							oCarousel.addContent(new sap.ui.commons.Image("", {
+								src : that.formatter("" + a[i].getIconSrc()),
+								alt : "Alternativtext",
+								width : "100px",
+								height : "75px",
+								press : function() {
+									document.getElementById("productButlerSelItemTextField").value = ""
+											+ oData2.RelatedProduct;
+									document.getElementById("productButlerItemPathTextField").value = ""
+											+ document.getElementById("productButlerItemPathTextField").value + ";"
+											+ oData2.RelatedProduct;
+
+									// TODO update details layout
+								}
+							}));
+						}
+					}
+				}
+				var fnErrorSimProd = function() {
+					return -1;
+				}
+
+				oExtensionODataModel.read("/SimilarProducts('" + oData.ProductId + "')", null, null, true,
+						fnSuccessSimProd, fnErrorSimProd);
+
+			}
+		}
+
+		var fnError = function() {
+			return -1;
+		}
+
+		oExtensionODataModel.read("/ProductRelations('"
+				+ document.getElementById("productButlerSelItemTextField").value + "')", null, null, true, fnSuccess,
+				fnError);
+
+	},
+
+	formatter : function(src) {
+		if (!src) {
+			return (sap.app.config.productPlaceholderImg);
+		} else {
+			var re = /.JPG/g;
+			src = src.replace(re, ".jpg");
+			return (sap.app.utility.getBackendImagesDestination() + sap.app.utility.getImagesBaseUrl() + src);
+		}
+	},
+
+	createProductRelations : function(selectedItem, itemPath) {
 
 		var items_tmp = itemPath.split(";");
 		var from = 0;
-		var to = items_tmp.length;
+		var to = items_tmp.length - 1;
 
 		if (to > 5) {
 			from = items_tmp.length - 5;
@@ -41,7 +105,7 @@ sap.ui.controller("espm-ui-reviews-web.productbutler-relations", {
 		// --> nur prüfen ob ähnliches produkt bereits eingetragen
 		// ansonsten merken
 		// Nein --> Neu anlegen
-		oProductRelation.ProductId = selectedItem.getValue();
+		oProductRelation.ProductId = selectedItem;
 		// oProductRelation.Elo = get old elo, calculate new one
 
 		/*

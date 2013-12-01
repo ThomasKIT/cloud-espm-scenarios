@@ -173,16 +173,7 @@ sap.ui.jsview("espm-ui-reviews-web.productbutler-dataset", {
 			selectionChanged : function search(oEvent) {
 				var idx = oEvent.getParameter("newLeadSelectedIndex");
 
-				document.getElementById("productButlerSelItemTextField").value = ""
-						+ oDataSet.getItems()[idx].getTitle();
-				document.getElementById("productButlerItemPathTextField").value = ""
-						+ document.getElementById("productButlerItemPathTextField").value + ";"
-						+ oDataSet.getItems()[idx].getTitle();
-
-				var oCarousel = sap.ui.getCore().byId("SimilarProductsCarousel");
-				oCarousel.destroyContent();
-
-				controller.updateCarousel(oDataSet);
+				controller.dataSetItemClicked(idx, oDataSet);
 
 			}
 		});

@@ -4,71 +4,52 @@ sap.ui.controller("espm-ui-reviews-web.productbutler-dataset", {
 		sap.app.viewCache.set("productbutler-dataset", this.getView());
 	},
 
-	updateCarousel : function(oProductsDataSet) {
-		that = this;
+	dataSetItemClicked : function(idx, oProductsDataSet) {
+		var title = oProductsDataSet.getItems()[idx].getTitle();
 
-		var selectedItem = sap.ui.getCore().byId("productButlerSelItemTextField");
-		var oExtensionODataModel = sap.ui.getCore().getModel("extensionodatamodel");
-		var oCarousel = sap.ui.getCore().byId("SimilarProductsCarousel");
+		document.getElementById("productButlerSelItemTextField").value = "" + title;
+		document.getElementById("productButlerItemPathTextField").value = ""
+				+ document.getElementById("productButlerItemPathTextField").value + ";" + title;
 
-		var fnSuccess = function(oData, oResponse) {
-			if (oData.error == undefined) {
+		sap.app.viewCache.get("productbutler-relations").getController().updateCarousel(oProductsDataSet);
 
-				// ProductRelations mit ALLEN SimilarProducts linken
-				var fnSuccessSimProd = function(oData2, oResponse2) {
+		var fnSuccessProd = function(oData, oResponse) {
+			for (i = 0; i < oData.results.length; i++) {
+				if (oData.results[i].ProductId == title) {
 
-					// TODO FÜR ALLE
-					// mit Products linken und Bilddaten ermitteln
-					var a = oProductsDataSet.getItems();
-
-					for (i = 0; i < a.length; ++i) {
-						if (a[i].getTitle() == oData2.RelatedProduct) {
-							oCarousel.addContent(new sap.ui.commons.Image("", {
-								src : that.formatter("" + a[i].getIconSrc()),
-								alt : "Alternativtext",
-								width : "100px",
-								height : "75px",
-								press : function() {
-									document.getElementById("productButlerSelItemTextField").value = ""
-											+ oData2.RelatedProduct;
-									document.getElementById("productButlerItemPathTextField").value = ""
-											+ document.getElementById("productButlerItemPathTextField").value + ";"
-											+ oData2.RelatedProduct;
-
-									alert(a[i]);
-									sap.app.viewCache.get("productbutler-details").updateProductDetailsLayout(a[i]);
-								}
-							}));
-						}
-					}
+					sap.app.viewCache.get("productbutler-details").updateProductDetailsLayout(title, oData.results[i]);
+					break; // !
 				}
-				var fnErrorSimProd = function() {
-					return -1;
-				}
-
-				oExtensionODataModel.read("/SimilarProducts('" + oData.ProductId + "')", null, null, true,
-						fnSuccessSimProd, fnErrorSimProd);
-
 			}
+
 		}
 
-		var fnError = function() {
+		var fnErrorProd = function() {
 			return -1;
 		}
 
-		oExtensionODataModel.read("/ProductRelations('"
-				+ document.getElementById("productButlerSelItemTextField").value + "')", null, null, true, fnSuccess,
-				fnError);
-
+		sap.app.odatamodel.read("/Products", null, null, true, fnSuccessProd, fnErrorProd);
 	},
+	// This variant is much faster and will use a data cache to cache the products each team the productbutler gets
+	// clicked
+	dataSetItemClickedCache : function(idx, oProductsDataSet) {
+		var title = oProductsDataSet.getItems()[idx].getTitle();
 
-	formatter : function(src) {
-		if (!src) {
-			return (sap.app.config.productPlaceholderImg);
-		} else {
-			var re = /.JPG/g;
-			src = src.replace(re, ".jpg");
-			return (sap.app.utility.getBackendImagesDestination() + sap.app.utility.getImagesBaseUrl() + src);
+		document.getElementById("productButlerSelItemTextField").value = "" + title;
+		document.getElementById("productButlerItemPathTextField").value = ""
+				+ document.getElementById("productButlerItemPathTextField").value + ";" + title;
+
+		var products = sap.app.dataCache.getOData();
+
+		for (i = 0; i < products.results.length; i++) {
+			if (products.results[i].ProductId == title) {
+				sap.app.viewCache.get("productbutler-details").updateProductDetailsLayout(title, products.results[i]);
+
+				break; // !
+			}
 		}
+
+		sap.app.viewCache.get("productbutler-relations").getController().updateCarousel(oProductsDataSet);
 	}
+
 });

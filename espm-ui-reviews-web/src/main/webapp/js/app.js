@@ -4,6 +4,7 @@ jQuery.sap.require("app.localstorage");
 jQuery.sap.require("app.config");
 jQuery.sap.require("app.utility");
 jQuery.sap.require("app.viewcache");
+jQuery.sap.require("app.datacache");
 
 // create i18n resource bundle for UI texts
 sap.app.i18n = new sap.ui.model.resource.ResourceModel({
