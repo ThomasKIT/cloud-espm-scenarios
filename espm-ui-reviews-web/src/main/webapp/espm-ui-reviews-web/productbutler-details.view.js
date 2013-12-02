@@ -44,7 +44,7 @@ sap.ui.jsview("espm-ui-reviews-web.productbutler-details", {
 				text : "{i18n>PRODUCT_DETAILS_LABEL}"
 			}), this.oProductDetailsLayout, oPurchaseButton, oWriteReview ]
 		// , oCarousel alternatively within the
-																			// product details
+		// product details
 		});
 
 		return oLayout;
@@ -72,6 +72,8 @@ sap.ui.jsview("espm-ui-reviews-web.productbutler-details", {
 		// now update the product details more or less dynamically
 		var oMatrixLayout = sap.ui.getCore().byId("productDetailsLayout");
 
+		var that = this;
+
 		oMatrixLayout.removeAllRows();
 
 		oMatrixLayout.createRow(new sap.ui.commons.Image("", {
@@ -91,45 +93,9 @@ sap.ui.jsview("espm-ui-reviews-web.productbutler-details", {
 		}));
 
 		// -------------------------------------------------------------------- Price
-		var filterAmount = new sap.ui.commons.TextField({
-			value : 100,
-			width : "80px"
-		});
 
-		var filterValuePrice = product.Price * 1;
-
-		var toolPopupPrice = new sap.ui.ux3.ToolPopup({
-			autoClose : true,
-			content : [
-					new sap.ui.commons.Button({
-						text : "-",
-						press : function() {
-							var oDataSet = sap.ui.getCore().byId("oDataSetProducts");
-							var test = oDataSet.getItems()[0];
-							var oBinding = oDataSet.getBinding("items");
-							filterValuePrice = filterValuePrice * 1 - filterAmount.getLiveValue() * 1;
-							oBinding.filter(new sap.ui.model.Filter("Price", sap.ui.model.FilterOperator.LE,
-									filterValuePrice));
-
-							oDataSet.setLeadSelection(-1);
-						}
-					}),
-					filterAmount,
-					new sap.ui.commons.Button({
-						text : "+",
-						press : function() {
-							var oDataSet = sap.ui.getCore().byId("oDataSetProducts");
-							var test = oDataSet.getItems()[0];
-							var oBinding = oDataSet.getBinding("items");
-							filterValuePrice = filterValuePrice * 1 + filterAmount.getLiveValue() * 1;
-							oBinding.filter(new sap.ui.model.Filter("Price", sap.ui.model.FilterOperator.GE,
-									filterValuePrice));
-
-							oDataSet.setLeadSelection(-1);
-						}
-					}) ],
-			opener : priceLink
-		}).addStyleClass('largePopup');
+		var oDataSet = sap.ui.getCore().byId("oDataSetProducts");
+		var toolPopupPrice = this.makeToolPopup(oDataSet, "Price", priceLink, product.Price);
 
 		var priceLink = new sap.ui.commons.Link({
 			text : "" + product.Price + " " + product.CurrencyCode,
@@ -160,45 +126,7 @@ sap.ui.jsview("espm-ui-reviews-web.productbutler-details", {
 
 		// -------------------------------------------------------------------- Weight
 
-		var filterAmountWeight = new sap.ui.commons.TextField({
-			value : 0.5,
-			width : "80px"
-		});
-
-		var filterValueWeight = product.Weight * 1;
-
-		var toolPopupWeight = new sap.ui.ux3.ToolPopup({
-			autoClose : true,
-			content : [
-					new sap.ui.commons.Button({
-						text : "-",
-						press : function() {
-							var oDataSet = sap.ui.getCore().byId("oDataSetProducts");
-							var test = oDataSet.getItems()[0];
-							var oBinding = oDataSet.getBinding("items");
-							filterValueWeight = filterValueWeight * 1 - filterAmountWeight.getLiveValue() * 1;
-							oBinding.filter(new sap.ui.model.Filter("Weight", sap.ui.model.FilterOperator.LE,
-									filterValueWeight));
-
-							oDataSet.setLeadSelection(-1);
-						}
-					}),
-					filterAmountWeight,
-					new sap.ui.commons.Button({
-						text : "+",
-						press : function() {
-							var oDataSet = sap.ui.getCore().byId("oDataSetProducts");
-							var test = oDataSet.getItems()[0];
-							var oBinding = oDataSet.getBinding("items");
-							filterValueWeight = filterValueWeight * 1 + filterAmountWeight.getLiveValue() * 1;
-							oBinding.filter(new sap.ui.model.Filter("Weight", sap.ui.model.FilterOperator.GE,
-									filterValueWeight));
-
-							oDataSet.setLeadSelection(-1);
-						}
-					}) ],
-			opener : weightLink
-		}).addStyleClass('largePopup');
+		var toolPopupWeight = this.makeToolPopup(oDataSet, "Weight", weightLink, product.Weight);
 
 		var weightLink = new sap.ui.commons.Link({
 			text : "" + product.Weight + " " + product.WeightUnit.toLowerCase(),
@@ -216,45 +144,7 @@ sap.ui.jsview("espm-ui-reviews-web.productbutler-details", {
 		}), weightLink);
 		// -------------------------------------------------------------------- Width
 
-		var filterAmountWidth = new sap.ui.commons.TextField({
-			value : 0.1,
-			width : "80px"
-		});
-
-		var filterValueWidth = product.DimensionWidth * 1;
-
-		var toolPopupWidth = new sap.ui.ux3.ToolPopup({
-			autoClose : true,
-			content : [
-					new sap.ui.commons.Button({
-						text : "-",
-						press : function() {
-							var oDataSet = sap.ui.getCore().byId("oDataSetProducts");
-							var test = oDataSet.getItems()[0];
-							var oBinding = oDataSet.getBinding("items");
-							filterValueWidth = filterValueWidth * 1 - filterAmountWidth.getLiveValue() * 1;
-							oBinding.filter(new sap.ui.model.Filter("DimensionWidth", sap.ui.model.FilterOperator.LE,
-									filterValueWidth));
-
-							oDataSet.setLeadSelection(-1);
-						}
-					}),
-					filterAmountWidth,
-					new sap.ui.commons.Button({
-						text : "+",
-						press : function() {
-							var oDataSet = sap.ui.getCore().byId("oDataSetProducts");
-							var test = oDataSet.getItems()[0];
-							var oBinding = oDataSet.getBinding("items");
-							filterValueWidth = filterValueWidth * 1 + filterAmountWidth.getLiveValue() * 1;
-							oBinding.filter(new sap.ui.model.Filter("DimensionWidth", sap.ui.model.FilterOperator.GE,
-									filterValueWidth));
-
-							oDataSet.setLeadSelection(-1);
-						}
-					}) ],
-			opener : widthLink
-		}).addStyleClass('largePopup');
+		var toolPopupWidth = this.makeToolPopup(oDataSet, "DimensionWidth", widthLink, product.DimensionWidth);
 
 		var widthLink = new sap.ui.commons.Link({
 			text : "" + product.DimensionWidth + " " + product.DimensionUnit.toLowerCase(),
@@ -273,45 +163,7 @@ sap.ui.jsview("espm-ui-reviews-web.productbutler-details", {
 
 		// -------------------------------------------------------------------- Depth
 
-		var filterAmountDepth = new sap.ui.commons.TextField({
-			value : 0.1,
-			width : "80px"
-		});
-
-		var filterValueDepth = product.DimensionDepth * 1;
-
-		var toolPopupDepth = new sap.ui.ux3.ToolPopup({
-			autoClose : true,
-			content : [
-					new sap.ui.commons.Button({
-						text : "-",
-						press : function() {
-							var oDataSet = sap.ui.getCore().byId("oDataSetProducts");
-							var test = oDataSet.getItems()[0];
-							var oBinding = oDataSet.getBinding("items");
-							filterValueDepth = filterValueDepth * 1 - filterAmountDepth.getLiveValue() * 1;
-							oBinding.filter(new sap.ui.model.Filter("DimensionWidth", sap.ui.model.FilterOperator.LE,
-									filterValueDepth));
-
-							oDataSet.setLeadSelection(-1);
-						}
-					}),
-					filterAmountDepth,
-					new sap.ui.commons.Button({
-						text : "+",
-						press : function() {
-							var oDataSet = sap.ui.getCore().byId("oDataSetProducts");
-							var test = oDataSet.getItems()[0];
-							var oBinding = oDataSet.getBinding("items");
-							filterValueDepth = filterValueDepth * 1 + filterAmountDepth.getLiveValue() * 1;
-							oBinding.filter(new sap.ui.model.Filter("DimensionDepth", sap.ui.model.FilterOperator.GE,
-									filterValueDepth));
-
-							oDataSet.setLeadSelection(-1);
-						}
-					}) ],
-			opener : depthLink
-		}).addStyleClass('largePopup');
+		var toolPopupDepth = this.makeToolPopup(oDataSet, "DimensionDepth", widthLink, product.DimensionDepth);
 
 		var depthLink = new sap.ui.commons.Link({
 			text : "" + product.DimensionDepth + " " + product.DimensionUnit.toLowerCase(),
@@ -328,47 +180,8 @@ sap.ui.jsview("espm-ui-reviews-web.productbutler-details", {
 			text : "Abmessung (Tiefe):"
 		}), depthLink);
 
-		// -------------------------------------------------------------------- Depth
-
-		var filterAmountHeight = new sap.ui.commons.TextField({
-			value : 0.1,
-			width : "80px"
-		});
-
-		var filterValueHeight = product.DimensionHeight * 1;
-
-		var toolPopupHeight = new sap.ui.ux3.ToolPopup({
-			autoClose : true,
-			content : [
-					new sap.ui.commons.Button({
-						text : "-",
-						press : function() {
-							var oDataSet = sap.ui.getCore().byId("oDataSetProducts");
-							var test = oDataSet.getItems()[0];
-							var oBinding = oDataSet.getBinding("items");
-							filterValueHeight = filterValueHeight * 1 - filterAmountHeight.getLiveValue() * 1;
-							oBinding.filter(new sap.ui.model.Filter("DimensionWidth", sap.ui.model.FilterOperator.LE,
-									filterValueHeight));
-
-							oDataSet.setLeadSelection(-1);
-						}
-					}),
-					filterAmountHeight,
-					new sap.ui.commons.Button({
-						text : "+",
-						press : function() {
-							var oDataSet = sap.ui.getCore().byId("oDataSetProducts");
-							var test = oDataSet.getItems()[0];
-							var oBinding = oDataSet.getBinding("items");
-							filterValueHeight = filterValueHeight * 1 + filterAmountHeight.getLiveValue() * 1;
-							oBinding.filter(new sap.ui.model.Filter("DimensionHeight", sap.ui.model.FilterOperator.GE,
-									filterValueHeight));
-
-							oDataSet.setLeadSelection(-1);
-						}
-					}) ],
-			opener : heightLink
-		}).addStyleClass('largePopup');
+		// -------------------------------------------------------------------- Height
+		var toolPopupHeight = this.makeToolPopup(oDataSet, "DimensionHeight", widthLink, product.DimensionHeight);
 
 		var heightLink = new sap.ui.commons.Link({
 			text : "" + product.DimensionHeight + " " + product.DimensionUnit.toLowerCase(),
@@ -402,5 +215,68 @@ sap.ui.jsview("espm-ui-reviews-web.productbutler-details", {
 			src = src.replace(re, ".jpg");
 			return (sap.app.utility.getBackendImagesDestination() + sap.app.utility.getImagesBaseUrl() + src);
 		}
+	},
+
+	makeToolPopup : function(oDataSet, elementToSearchFor, openerLink, value) {
+		var filterOperator = sap.ui.model.FilterOperator.LE;
+
+		var filterValuePrice = value * 1;
+
+		var filterAmount = new sap.ui.commons.TextField({
+			value : 100,
+			width : "80px"
+		});
+
+		var valueLabel = new sap.ui.commons.Label({
+			text : " " + filterValuePrice,
+		});
+
+		return new sap.ui.ux3.ToolPopup({
+			autoClose : true,
+			content : [ new sap.ui.commons.CheckBox({
+				text : 'Nur größere Werte zulassen',
+				tooltip : 'Aktivieren um nur nach Werten zu filtern die größer sind.',
+				checked : false,
+				change : function() {
+					if (this.getChecked()) {
+						filterOperator = sap.ui.model.FilterOperator.GE;
+					} else {
+						filterOperator = sap.ui.model.FilterOperator.LE;
+					}
+				}
+			}), new sap.ui.core.HTML({
+				content : "<br/>"
+			}), new sap.ui.commons.Button({
+				text : "-",
+				press : function() {
+					var oBinding = oDataSet.getBinding("items");
+					filterValuePrice = filterValuePrice * 1 - filterAmount.getLiveValue() * 1;
+					valueLabel.setText(" " + filterValuePrice);
+
+					oBinding.filter(new sap.ui.model.Filter(elementToSearchFor, filterOperator, filterValuePrice));
+
+					oDataSet.setLeadSelection(-1);
+
+				}
+			}), filterAmount, new sap.ui.commons.Button({
+				text : "+",
+				press : function() {
+
+					var oBinding = oDataSet.getBinding("items");
+					filterValuePrice = filterValuePrice * 1 + filterAmount.getLiveValue() * 1;
+					valueLabel.setText(" " + filterValuePrice);
+
+					oBinding.filter(new sap.ui.model.Filter(elementToSearchFor, filterOperator, filterValuePrice));
+
+					oDataSet.setLeadSelection(-1);
+
+				}
+			}), new sap.ui.core.HTML({
+				content : "<br/><br/>"
+			}), new sap.ui.commons.Label({
+				text : "Filterwert: "
+			}), valueLabel ],
+			opener : openerLink
+		}).addStyleClass('largePopup');
 	}
 });
