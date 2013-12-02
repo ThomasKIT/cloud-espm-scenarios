@@ -31,7 +31,7 @@ public class ProductRelationTest extends AbstractTest {
 
 	@Test
 	public void testCreationAndDeletion() throws ParseException {
-		ProductRelation relations = null;
+		ProductElo relations = null;
 
 		EntityManager em = emf.createEntityManager();
 		TestFactory testFactory = new TestFactory();
@@ -42,7 +42,7 @@ public class ProductRelationTest extends AbstractTest {
 
 			em.getTransaction().begin();
 			// search for customer review
-			relations = em.find(ProductRelation.class, relationsID);
+			relations = em.find(ProductElo.class, relationsID);
 			assertNotNull("Search for product relations failed with id: "
 					+ relationsID, relations);
 			// testFactory.deleteProductRelations(em, relationsID);
@@ -61,12 +61,12 @@ public class ProductRelationTest extends AbstractTest {
 			em.getTransaction().begin();
 
 			// Selektieren
-			List<ProductRelation> allRelations = this.testFactory
+			List<ProductElo> allRelations = this.testFactory
 					.getProductRelations(em);
 
 			// Ausgabe
 			if (allRelations != null & allRelations.size() > 0) {
-				for (ProductRelation item : allRelations) {
+				for (ProductElo item : allRelations) {
 					logger.info(item.toString());
 				}
 			}
@@ -77,7 +77,7 @@ public class ProductRelationTest extends AbstractTest {
 
 	@Test
 	public void testCreation() throws ParseException {
-		ProductRelation relations = null;
+		ProductElo relations = null;
 		this.relationsID = "3";
 
 		EntityManager em = emf.createEntityManager();

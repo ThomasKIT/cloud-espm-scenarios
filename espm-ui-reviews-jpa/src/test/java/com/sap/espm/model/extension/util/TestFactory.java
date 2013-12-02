@@ -19,7 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.sap.espm.model.extension.CustomerReview;
-import com.sap.espm.model.extension.ProductRelation;
+import com.sap.espm.model.extension.ProductElo;
 
 //import com.sap.espm.model.extension.CustomerReview;
 
@@ -185,7 +185,7 @@ public class TestFactory {
 
 			em.getTransaction().begin();
 
-			ProductRelation relations = new ProductRelation();
+			ProductElo relations = new ProductElo();
 			// List<ProductSimilarity> similarities = new
 			// LinkedList<ProductSimilarity>();
 
@@ -220,16 +220,15 @@ public class TestFactory {
 	 * @param relationsID
 	 * @return
 	 */
-	public List<ProductRelation> getProductRelations(EntityManager em) {
-		List<ProductRelation> relations = null;
+	public List<ProductElo> getProductRelations(EntityManager em) {
+		List<ProductElo> relations = null;
 
 		try {
 			if (!em.getTransaction().isActive()) {
 				em.getTransaction().begin();
 			}
-			TypedQuery<ProductRelation> queryProductRelations = em
-					.createQuery("SELECT pr FROM ProductRelations pr",
-							ProductRelation.class);
+			TypedQuery<ProductElo> queryProductRelations = em.createQuery(
+					"SELECT pr FROM ProductRelations pr", ProductElo.class);
 			relations = queryProductRelations.getResultList();
 
 			if (relations == null) {
@@ -252,12 +251,12 @@ public class TestFactory {
 	 */
 	public Boolean deleteProductRelations(EntityManager em, long relationsID) {
 		Boolean status = true;
-		ProductRelation relations = null;
+		ProductElo relations = null;
 		try {
 			if (!em.getTransaction().isActive()) {
 				em.getTransaction().begin();
 			}
-			relations = em.find(ProductRelation.class, relationsID);
+			relations = em.find(ProductElo.class, relationsID);
 			if (relations != null) {
 
 				// for (ProductSimilarity sim : relations.getRelations()) {

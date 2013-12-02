@@ -11,7 +11,7 @@ sap.ui.controller("espm-ui-reviews-web.productbutler-relations", {
 
 		var fnError = $.proxy(this.showReadError, this);
 
-		sap.app.extensionodatamodel.read("/ProductRelations", null, null, true, fnSuccess, fnError);
+		sap.app.extensionodatamodel.read("/ProductElos", null, null, true, fnSuccess, fnError);
 	},
 
 	updateCarousel : function(oProductsDataSet) {
@@ -69,9 +69,8 @@ sap.ui.controller("espm-ui-reviews-web.productbutler-relations", {
 			return -1;
 		};
 
-		oExtensionODataModel.read("/ProductRelations('"
-				+ document.getElementById("productButlerSelItemTextField").value + "')", null, null, true, fnSuccess,
-				fnError);
+		oExtensionODataModel.read("/ProductElos('" + document.getElementById("productButlerSelItemTextField").value
+				+ "')", null, null, true, fnSuccess, fnError);
 
 	},
 
@@ -186,7 +185,7 @@ sap.ui.controller("espm-ui-reviews-web.productbutler-relations", {
 						};
 
 						var fnError = $.proxy(this.showReadError, this);
-						oExtensionODataModel.create("/ProductRelations", oProductRelation, null, fnSuccess, fnError);
+						oExtensionODataModel.create("/ProductElos", oProductRelation, null, fnSuccess, fnError);
 
 					} else {
 						oProductRelation.ProductId = oData.ProductId;
@@ -208,12 +207,12 @@ sap.ui.controller("espm-ui-reviews-web.productbutler-relations", {
 						};
 
 						var fnErrorCreate = $.proxy(this.showReadError, this);
-						oExtensionODataModel.create("/ProductRelations", oProductRelation, null, fnSuccessCreate,
+						oExtensionODataModel.create("/ProductElos", oProductRelation, null, fnSuccessCreate,
 								fnErrorCreate);
 					}
 				};
 
-				oExtensionODataModel.read("/ProductRelations('" + items[i] + "')", null, null, true, fnSuccessProdRel,
+				oExtensionODataModel.read("/ProductElos('" + items[i] + "')", null, null, true, fnSuccessProdRel,
 						fnErrorProdRel);
 			}
 		}
@@ -224,7 +223,8 @@ sap.ui.controller("espm-ui-reviews-web.productbutler-relations", {
 				// rA
 				var oEntryA = {};
 				oEntryA.ProductId = itemsElo[i].ProductId;
-				oEntryA.ProductElo = calculateNewElo(itemsElo[i].ProductElo, itemsElo[i + 1].ProductElo, false); // rB is
+				oEntryA.ProductElo = calculateNewElo(itemsElo[i].ProductElo, itemsElo[i + 1].ProductElo, false); // rB
+				// is
 				// the
 				// winner
 
@@ -236,7 +236,7 @@ sap.ui.controller("espm-ui-reviews-web.productbutler-relations", {
 					alert("Update failed");
 				};
 				oParamsA.bMerge = true;
-				oExtensionODataModel.update("/ProductRelations('" + selectedItem + "')", oEntryA, oParamsA);
+				oExtensionODataModel.update("/ProductElos('" + selectedItem + "')", oEntryA, oParamsA);
 
 				// rB
 				var oEntryB = {};
@@ -253,7 +253,7 @@ sap.ui.controller("espm-ui-reviews-web.productbutler-relations", {
 					alert("Update failed");
 				};
 				oParamsB.bMerge = true;
-				oExtensionODataModel.update("/ProductRelations('" + selectedItem + "')", oEntryB, oParamsB);
+				oExtensionODataModel.update("/ProductElos('" + selectedItem + "')", oEntryB, oParamsB);
 			}
 		}
 

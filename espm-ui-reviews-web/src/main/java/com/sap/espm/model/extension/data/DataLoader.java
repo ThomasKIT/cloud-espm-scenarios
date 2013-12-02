@@ -15,7 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.sap.espm.model.extension.CustomerReview;
-import com.sap.espm.model.extension.ProductRelation;
+import com.sap.espm.model.extension.ProductElo;
 import com.sap.espm.model.extension.SimilarProduct;
 
 /**
@@ -64,7 +64,7 @@ public class DataLoader {
 
 			em.getTransaction().begin();
 
-			ProductRelation relations = new ProductRelation();
+			ProductElo relations = new ProductElo();
 			SimilarProduct relatedProduct = new SimilarProduct();
 
 			// HT-1000
@@ -82,7 +82,7 @@ public class DataLoader {
 
 			// HT-1000
 			// Creating the relation
-			relations = new ProductRelation();
+			relations = new ProductElo();
 			relations.setProductId("HT-1011");
 			relations.setProductElo(2100);
 			em.persist(relations);

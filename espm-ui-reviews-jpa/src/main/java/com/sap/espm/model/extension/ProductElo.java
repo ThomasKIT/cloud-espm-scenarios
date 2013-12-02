@@ -13,8 +13,8 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name = "ESPM_PRODUCT_RELATIONS")
-public class ProductRelation implements Serializable {
+@Table(name = "ESPM_PRODUCT_ELOS")
+public class ProductElo implements Serializable {
 
 	private static final Integer STARTING_RX_ELO = 1400;
 
@@ -22,7 +22,6 @@ public class ProductRelation implements Serializable {
 
 	@Id
 	@GeneratedValue
-	@Column(name = "PRODUCT_ID")
 	private String productId;
 
 	@Column(name = "PRODUCT_ELO")
@@ -49,7 +48,7 @@ public class ProductRelation implements Serializable {
 		this.productId = productId;
 	}
 
-	public ProductRelation() {
+	public ProductElo() {
 		super();
 	}
 
