@@ -65,6 +65,7 @@ public class DataLoader {
 			em.getTransaction().begin();
 
 			ProductRelation relations = new ProductRelation();
+			SimilarProduct relatedProduct = new SimilarProduct();
 
 			// HT-1000
 			// Creating the relation
@@ -73,39 +74,35 @@ public class DataLoader {
 			em.persist(relations);
 
 			// // Similar products
-			SimilarProduct relatedProducts = new SimilarProduct();
-			relatedProducts.setProductId("HT-1000");
-			relatedProducts.setRelatedProduct("HT-1002");
-			relatedProducts.setResponsible_user("system");
-			em.persist(relatedProducts);
-			// relatedProducts = new SimilarProduct();
-			// relatedProducts.setProductRelationId("HT-1000");
-			// relatedProducts.setRelatedProduct("HT-1003");
-			// relatedProducts.setResponsible_user("system");
-			// em.persist(relatedProducts);
-			// relatedProducts = new SimilarProduct();
-			// relatedProducts.setProductRelationId("HT-1000");
-			// relatedProducts.setRelatedProduct("HT-1011");
-			// relatedProducts.setResponsible_user("system");
-			// em.persist(relatedProducts);
-			//
-			// // HT-1001
-			// // Creating the relation
-			// relations.setProductId("HT-1001");
-			// relations.setProductElo(1700);
-			// em.persist(relations);
-			//
+			relatedProduct = new SimilarProduct();
+			relatedProduct.setProductId("HT-1000");
+			relatedProduct.setRelatedProduct("HT-1002");
+			relatedProduct.setResponsible_user("system");
+			em.persist(relatedProduct);
+
+			// HT-1000
+			// Creating the relation
+			relations = new ProductRelation();
+			relations.setProductId("HT-1011");
+			relations.setProductElo(2100);
+			em.persist(relations);
+
 			// // Similar products
-			// relatedProducts = new SimilarProduct();
-			// relatedProducts.setProductRelationId("HT-1001");
-			// relatedProducts.setRelatedProduct("HT-1002");
-			// relatedProducts.setResponsible_user("system");
-			// em.persist(relatedProducts);
-			// relatedProducts = new SimilarProduct();
-			// relatedProducts.setProductRelationId("HT-1001");
-			// relatedProducts.setRelatedProduct("HT-1003");
-			// relatedProducts.setResponsible_user("system");
-			// em.persist(relatedProducts);
+			relatedProduct = new SimilarProduct();
+			relatedProduct.setProductId("HT-1011");
+			relatedProduct.setRelatedProduct("HT-1002");
+			relatedProduct.setResponsible_user("system");
+			em.persist(relatedProduct);
+			relatedProduct = new SimilarProduct();
+			relatedProduct.setProductId("HT-1011");
+			relatedProduct.setRelatedProduct("HT-1010");
+			relatedProduct.setResponsible_user("system");
+			em.persist(relatedProduct);
+			relatedProduct = new SimilarProduct();
+			relatedProduct.setProductId("HT-1011");
+			relatedProduct.setRelatedProduct("HT-1001");
+			relatedProduct.setResponsible_user("system");
+			em.persist(relatedProduct);
 
 			em.getTransaction().commit();
 		} finally {

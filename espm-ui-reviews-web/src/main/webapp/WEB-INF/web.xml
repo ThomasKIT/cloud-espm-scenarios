@@ -136,4 +136,9 @@
 	  <description>All SAP HANA Cloud Platform users</description>
 	  <role-name>Everyone</role-name>
 	</security-role>
+	<resource-ref>
+    	<res-ref-name>user/Provider</res-ref-name>
+    	<res-type>com.sap.security.um.user.UserProvider</res-type>
+	</resource-ref>
+
 </web-app>

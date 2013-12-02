@@ -2,20 +2,9 @@
 	<entity>
 		<entity-name>com.sap.espm.model.extension.SimilarProduct</entity-name>
 		<entity-width>120</entity-width>
-		<entity-height>148</entity-height>
+		<entity-height>168</entity-height>
 		<entity-X-Coordinate>490</entity-X-Coordinate>
 		<entity-Y-Coordinate>68</entity-Y-Coordinate>
-		<primary-collapsed>false</primary-collapsed>
-		<relation-collapsed>false</relation-collapsed>
-		<basic-collapsed>false</basic-collapsed>
-	</entity>
-
-	<entity>
-		<entity-name>com.sap.espm.model.extension.ProductRelation</entity-name>
-		<entity-width>120</entity-width>
-		<entity-height>146</entity-height>
-		<entity-X-Coordinate>260</entity-X-Coordinate>
-		<entity-Y-Coordinate>69</entity-Y-Coordinate>
 		<primary-collapsed>false</primary-collapsed>
 		<relation-collapsed>false</relation-collapsed>
 		<basic-collapsed>false</basic-collapsed>
@@ -27,6 +16,17 @@
 		<entity-height>208</entity-height>
 		<entity-X-Coordinate>60</entity-X-Coordinate>
 		<entity-Y-Coordinate>60</entity-Y-Coordinate>
+		<primary-collapsed>false</primary-collapsed>
+		<relation-collapsed>false</relation-collapsed>
+		<basic-collapsed>false</basic-collapsed>
+	</entity>
+
+	<entity>
+		<entity-name>com.sap.espm.model.extension.ProductRelation</entity-name>
+		<entity-width>120</entity-width>
+		<entity-height>108</entity-height>
+		<entity-X-Coordinate>260</entity-X-Coordinate>
+		<entity-Y-Coordinate>69</entity-Y-Coordinate>
 		<primary-collapsed>false</primary-collapsed>
 		<relation-collapsed>false</relation-collapsed>
 		<basic-collapsed>false</basic-collapsed>

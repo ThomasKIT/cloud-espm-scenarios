@@ -177,6 +177,7 @@ sap.ui.jsview("espm-ui-reviews-web.productbutler-dataset", {
 				var idx = oEvent.getParameter("newLeadSelectedIndex");
 
 				controller.dataSetItemClicked(idx, oDataSet);
+				oDataSet.setLeadSelection(-1);
 			}
 		});
 		oDataSet.setModel(oModel);

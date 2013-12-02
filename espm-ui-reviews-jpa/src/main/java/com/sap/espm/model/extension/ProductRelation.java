@@ -7,16 +7,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import com.sap.espm.model.extension.SimilarProduct;
-import java.util.Collection;
-import javax.persistence.OneToMany;
 
 /**
  * Entity implementation class for entity Product Relations
  */
 
 @Entity
-@Table(name = "ESPM_EXTENSION_PRODUCT_RELATIONS")
+@Table(name = "ESPM_PRODUCT_RELATIONS")
 public class ProductRelation implements Serializable {
 
 	private static final Integer STARTING_RX_ELO = 1400;
@@ -30,9 +27,6 @@ public class ProductRelation implements Serializable {
 
 	@Column(name = "PRODUCT_ELO")
 	private Integer productElo;
-
-	@OneToMany
-	private Collection<SimilarProduct> similarProduct;
 
 	public int getProductElo() {
 		if (productElo == null || productElo < 0 || productElo == 0) {
@@ -57,14 +51,6 @@ public class ProductRelation implements Serializable {
 
 	public ProductRelation() {
 		super();
-	}
-
-	public Collection<SimilarProduct> getSimilarProduct() {
-	    return similarProduct;
-	}
-
-	public void setSimilarProduct(Collection<SimilarProduct> param) {
-	    this.similarProduct = param;
 	}
 
 }

@@ -6,6 +6,7 @@ import java.util.Calendar;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -20,7 +21,9 @@ public class SimilarProduct implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
+
 	@Column(name = "PRODUCT_ID")
 	private String productId;
 
@@ -68,6 +71,14 @@ public class SimilarProduct implements Serializable {
 
 	public SimilarProduct() {
 		super();
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 }
